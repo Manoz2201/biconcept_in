@@ -105,9 +105,21 @@ class ServicePage extends StatelessWidget {
                       ),
                     ),
                   const SizedBox(height: 36),
-                  GoldButton(
-                    label: 'Start a concept',
-                    onPressed: () => context.go('/inquire'),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: [
+                      GoldButton(
+                        label: 'Start a concept',
+                        onPressed: () => context.go('/inquire'),
+                      ),
+                      if (practice.kind == PracticeKind.realEstate)
+                        GoldButton(
+                          label: 'NCR listings',
+                          variant: GoldButtonVariant.outline,
+                          onPressed: () => context.go('/listings'),
+                        ),
+                    ],
                   ),
                 ],
               ),

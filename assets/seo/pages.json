@@ -96,6 +96,27 @@
       "h1": "Start a concept.",
       "keywords": ["architecture consultation", "interior design inquiry"],
       "faqs": []
+    },
+    {
+      "path": "/listings",
+      "title": "NCR listings — Delhi, Noida, Greater Noida | BiConcept",
+      "description": "Upcoming and newly launched projects in Delhi, Noida, and Greater Noida, researched for BiConcept clients. Filter by city and sector.",
+      "h1": "NCR, by pocket.",
+      "keywords": [
+        "Noida upcoming projects",
+        "Greater Noida new launch",
+        "Delhi residential projects"
+      ],
+      "faqs": [
+        {
+          "question": "Which cities does BiConcept research?",
+          "answer": "Delhi, Noida, and Greater Noida — including named sectors. Listings are researched publicly and published only after studio review."
+        },
+        {
+          "question": "Are these BiConcept developments?",
+          "answer": "No. These are public-market projects we research so a client can brief the studio against a real pocket, not a brochure."
+        }
+      ]
     }
   ]
 }

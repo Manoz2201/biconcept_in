@@ -7,38 +7,77 @@ import 'package:biconcept_in/core/widgets/cta_band.dart';
 import 'package:biconcept_in/core/widgets/gold_button.dart';
 import 'package:biconcept_in/core/widgets/ken_burns.dart';
 import 'package:biconcept_in/core/widgets/reveal.dart';
+import 'package:biconcept_in/data/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class ProjectPage extends StatelessWidget {
+class ProjectPage extends StatefulWidget {
   const ProjectPage({super.key, required this.slug});
 
   final String slug;
 
   @override
-  Widget build(BuildContext context) {
-    final project = Projects.bySlug(slug);
-    if (project == null) {
-      return PageFrame(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 160, 24, 80),
-            child: Column(
-              children: [
-                Text('Project not found.', style: Theme.of(context).textTheme.displaySmall),
-                const SizedBox(height: 20),
-                GoldButton(
-                  label: 'View all work',
-                  variant: GoldButtonVariant.outline,
-                  onPressed: () => context.go('/work'),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
+  State<ProjectPage> createState() => _ProjectPageState();
+}
 
+class _ProjectPageState extends State<ProjectPage> {
+  late Future<Project?> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = ShowcaseRepository().bySlug(widget.slug);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Project?>(
+      future: _future,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const PageFrame(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(24, 200, 24, 80),
+                child: Center(child: CircularProgressIndicator(color: BcColors.gold)),
+              ),
+            ],
+          );
+        }
+        final project = snapshot.data;
+        if (project == null) {
+          return PageFrame(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 160, 24, 80),
+                child: Column(
+                  children: [
+                    Text('Project not found.', style: Theme.of(context).textTheme.displaySmall),
+                    const SizedBox(height: 20),
+                    GoldButton(
+                      label: 'View all work',
+                      variant: GoldButtonVariant.outline,
+                      onPressed: () => context.go('/work'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        }
+        return _ProjectBody(project: project);
+      },
+    );
+  }
+}
+
+class _ProjectBody extends StatelessWidget {
+  const _ProjectBody({required this.project});
+
+  final Project project;
+
+  @override
+  Widget build(BuildContext context) {
     final compact = BcBreakpoints.isCompact(context);
     return PageFrame(
       children: [

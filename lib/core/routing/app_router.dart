@@ -3,8 +3,11 @@ import 'package:biconcept_in/content/projects.dart';
 import 'package:biconcept_in/content/seo.dart';
 import 'package:biconcept_in/core/layout/site_scaffold.dart';
 import 'package:biconcept_in/core/seo/seo.dart';
+import 'package:biconcept_in/features/admin/admin_login_page.dart';
+import 'package:biconcept_in/features/admin/admin_shell.dart';
 import 'package:biconcept_in/features/home/home_page.dart';
 import 'package:biconcept_in/features/inquire/inquire_page.dart';
+import 'package:biconcept_in/features/listings/listings_page.dart';
 import 'package:biconcept_in/features/services/service_page.dart';
 import 'package:biconcept_in/features/studio/studio_page.dart';
 import 'package:biconcept_in/features/work/project_page.dart';
@@ -54,14 +57,73 @@ GoRouter createRouter() {
             ],
           ),
           GoRoute(
+            path: '/listings',
+            pageBuilder: (context, state) => _fade(state, const ListingsPage()),
+            routes: [
+              GoRoute(
+                path: ':city',
+                pageBuilder: (context, state) => _fade(
+                  state,
+                  ListingsPage(citySlug: state.pathParameters['city']),
+                ),
+                routes: [
+                  GoRoute(
+                    path: ':sector',
+                    pageBuilder: (context, state) => _fade(
+                      state,
+                      ListingsPage(
+                        citySlug: state.pathParameters['city'],
+                        sectorSlug: state.pathParameters['sector'],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          GoRoute(
             path: '/studio',
             pageBuilder: (context, state) => _fade(state, const StudioPage()),
           ),
           GoRoute(
             path: '/inquire',
-            pageBuilder: (context, state) => _fade(state, const InquirePage()),
+            pageBuilder: (context, state) {
+              final query = state.uri.queryParameters;
+              return _fade(
+                state,
+                InquirePage(
+                  listingId: query['listing'],
+                  city: query['city'],
+                  sector: query['sector'],
+                ),
+              );
+            },
           ),
         ],
+      ),
+      GoRoute(
+        path: '/admin/login',
+        pageBuilder: (context, state) => _fade(state, const AdminLoginPage()),
+      ),
+      GoRoute(
+        path: '/admin',
+        pageBuilder: (context, state) => _fade(state, const AdminShell(section: 'home')),
+      ),
+      GoRoute(
+        path: '/admin/leads',
+        pageBuilder: (context, state) => _fade(state, const AdminShell(section: 'leads')),
+      ),
+      GoRoute(
+        path: '/admin/listings',
+        pageBuilder: (context, state) => _fade(state, const AdminShell(section: 'listings')),
+      ),
+      GoRoute(
+        path: '/admin/showcase',
+        pageBuilder: (context, state) => _fade(state, const AdminShell(section: 'showcase')),
+      ),
+      GoRoute(
+        path: '/admin/services',
+        pageBuilder: (context, state) => _fade(state, const AdminShell(section: 'services')),
       ),
     ],
   );

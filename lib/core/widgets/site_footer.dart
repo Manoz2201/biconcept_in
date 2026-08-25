@@ -37,6 +37,7 @@ class SiteFooter extends StatelessWidget {
                     const SizedBox(height: 28),
                     _LinkColumn('Studio', const [
                       ('Work', '/work'),
+                      ('Listings', '/listings'),
                       ('Studio', '/studio'),
                       ('Start a concept', '/inquire'),
                     ]),
@@ -57,6 +58,7 @@ class SiteFooter extends StatelessWidget {
                     const Expanded(
                       child: _LinkColumn('Studio', [
                         ('Work', '/work'),
+                        ('Listings', '/listings'),
                         ('Studio', '/studio'),
                         ('Start a concept', '/inquire'),
                       ]),

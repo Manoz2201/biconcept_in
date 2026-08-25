@@ -11,6 +11,7 @@ import 'package:biconcept_in/core/widgets/faq_section.dart';
 import 'package:biconcept_in/core/widgets/gold_button.dart';
 import 'package:biconcept_in/core/widgets/ken_burns.dart';
 import 'package:biconcept_in/core/widgets/reveal.dart';
+import 'package:biconcept_in/data/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -256,13 +257,25 @@ class _PracticeCardState extends State<_PracticeCard> {
   }
 }
 
-class _SelectedWork extends StatelessWidget {
+class _SelectedWork extends StatefulWidget {
   const _SelectedWork();
+
+  @override
+  State<_SelectedWork> createState() => _SelectedWorkState();
+}
+
+class _SelectedWorkState extends State<_SelectedWork> {
+  late Future<List<Project>> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = ShowcaseRepository().featuredProjects();
+  }
 
   @override
   Widget build(BuildContext context) {
     final compact = BcBreakpoints.isCompact(context);
-    final featured = Projects.featured;
     return ColoredBox(
       color: BcColors.charcoal,
       child: PageInset(
@@ -285,10 +298,21 @@ class _SelectedWork extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: BcColors.muted),
               ),
               const SizedBox(height: 40),
-              for (var i = 0; i < featured.length; i++) ...[
-                _FeaturedTile(project: featured[i], reverse: !compact && i.isOdd),
-                SizedBox(height: compact ? 28 : 40),
-              ],
+              FutureBuilder<List<Project>>(
+                future: _future,
+                builder: (context, snapshot) {
+                  final featured = snapshot.data ?? Projects.featured;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      for (var i = 0; i < featured.length; i++) ...[
+                        _FeaturedTile(project: featured[i], reverse: !compact && i.isOdd),
+                        SizedBox(height: compact ? 28 : 40),
+                      ],
+                    ],
+                  );
+                },
+              ),
               GoldButton(
                 label: SiteCopy.workAll,
                 variant: GoldButtonVariant.outline,

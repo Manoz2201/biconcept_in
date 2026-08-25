@@ -1,6 +1,7 @@
 import 'package:biconcept_in/app.dart';
 import 'package:biconcept_in/content/seo.dart';
 import 'package:biconcept_in/core/widgets/faq_section.dart';
+import 'package:biconcept_in/data/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,6 +29,7 @@ void main() {
 
   setUpAll(() async {
     await SiteSeo.load();
+    ShowcaseRepository.forceLocalProjects = true;
   });
 
   testWidgets('home renders BiConcept wordmark and primary CTA', (tester) async {
@@ -71,6 +73,10 @@ void main() {
     await tester.tap(find.text('Real estate').first);
     await _settle(tester);
     expect(find.text('Land, composed.'), findsWidgets);
+
+    await tester.tap(find.text('Listings').first);
+    await _settle(tester);
+    expect(find.text('NCR, by pocket.'), findsWidgets);
 
     await tester.tap(find.text('Work').first);
     await _settle(tester);

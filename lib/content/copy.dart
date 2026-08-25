@@ -35,7 +35,7 @@ abstract final class SiteCopy {
 
   static const inquireSuccessTitle = 'Received.';
   static const inquireSuccessBody =
-      'Thank you. This form is not yet connected to our studio inbox. In a later phase your brief will reach us directly. For now, write to studio@biconcept.in.';
+      'Thank you. Your brief is with the studio. We will reply if we are the right practice — and if we are, with the first questions that matter.';
 
   static const footerBlurb =
       'A conceptual studio for architecture, interiors, and real estate.';

@@ -1,5 +1,6 @@
 import 'package:biconcept_in/content/brand.dart';
 import 'package:biconcept_in/content/copy.dart';
+import 'package:biconcept_in/content/ncr_locations.dart';
 import 'package:biconcept_in/content/seo.dart';
 import 'package:biconcept_in/content/services.dart';
 import 'package:biconcept_in/core/layout/max_width.dart';
@@ -14,7 +15,16 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InquirePage extends StatefulWidget {
-  const InquirePage({super.key});
+  const InquirePage({
+    super.key,
+    this.listingId,
+    this.city,
+    this.sector,
+  });
+
+  final String? listingId;
+  final String? city;
+  final String? sector;
 
   @override
   State<InquirePage> createState() => _InquirePageState();
@@ -25,6 +35,7 @@ class _InquirePageState extends State<InquirePage> {
   final _form = GlobalKey<FormState>();
   final _name = TextEditingController();
   final _phone = TextEditingController();
+  final _email = TextEditingController();
   final _city = TextEditingController();
   final _message = TextEditingController();
 
@@ -34,6 +45,7 @@ class _InquirePageState extends State<InquirePage> {
   String _budget = 'To be discussed';
   bool _submitting = false;
   bool _done = false;
+  String? _error;
 
   static const _types = [
     'Residence',
@@ -54,33 +66,72 @@ class _InquirePageState extends State<InquirePage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    final citySlug = widget.city ?? '';
+    final city = NcrLocations.bySlug(citySlug);
+    if (city != null) {
+      _city.text = city.label;
+    } else if (citySlug.isNotEmpty) {
+      _city.text = citySlug;
+    }
+    if ((widget.listingId ?? '').isNotEmpty) {
+      _practice = PracticeKind.realEstate;
+      _projectType = 'Land / plot';
+    }
+  }
+
+  @override
   void dispose() {
     _name.dispose();
     _phone.dispose();
+    _email.dispose();
     _city.dispose();
     _message.dispose();
     super.dispose();
   }
 
+  String get _cityValue {
+    final typed = _city.text.trim();
+    final slug = widget.city ?? '';
+    final known = NcrLocations.bySlug(slug);
+    if (known != null && (typed.isEmpty || typed == known.label)) return known.slug;
+    return typed;
+  }
+
   Future<void> _submit() async {
     if (!(_form.currentState?.validate() ?? false)) return;
-    setState(() => _submitting = true);
-    await _repo.submit(
-      Inquiry(
-        practice: _practice,
-        projectType: _projectType,
-        city: _city.text.trim(),
-        budgetBand: _budget,
-        name: _name.text.trim(),
-        phone: _phone.text.trim(),
-        message: _message.text.trim(),
-      ),
-    );
-    if (!mounted) return;
     setState(() {
-      _submitting = false;
-      _done = true;
+      _submitting = true;
+      _error = null;
     });
+    try {
+      await _repo.submit(
+        Inquiry(
+          practice: _practice,
+          projectType: _projectType,
+          city: _cityValue,
+          sector: widget.sector ?? '',
+          budgetBand: _budget,
+          name: _name.text.trim(),
+          phone: _phone.text.trim(),
+          email: _email.text.trim(),
+          message: _message.text.trim(),
+          listingId: widget.listingId ?? '',
+        ),
+      );
+      if (!mounted) return;
+      setState(() {
+        _submitting = false;
+        _done = true;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _submitting = false;
+        _error = 'The brief could not be sent. Check your connection and try again.';
+      });
+    }
   }
 
   @override
@@ -118,6 +169,13 @@ class _InquirePageState extends State<InquirePage> {
             SiteCopy.inquireIntro,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: BcColors.muted),
           ),
+          if ((widget.listingId ?? '').isNotEmpty) ...[
+            const SizedBox(height: 16),
+            Text(
+              'This brief is tied to a researched NCR listing. We will read it against that project.',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: BcColors.goldSoft),
+            ),
+          ],
           const SizedBox(height: 36),
           _StepDots(step: _step),
           const SizedBox(height: 36),
@@ -243,12 +301,22 @@ class _InquirePageState extends State<InquirePage> {
         ),
         const SizedBox(height: 16),
         TextFormField(
+          controller: _email,
+          keyboardType: TextInputType.emailAddress,
+          decoration: const InputDecoration(labelText: 'EMAIL (OPTIONAL)'),
+        ),
+        const SizedBox(height: 16),
+        TextFormField(
           controller: _message,
           maxLines: 5,
           decoration: const InputDecoration(labelText: 'BRIEF'),
           validator: (value) =>
               (value == null || value.trim().length < 8) ? 'A short brief is enough.' : null,
         ),
+        if (_error != null) ...[
+          const SizedBox(height: 16),
+          Text(_error!, style: const TextStyle(color: BcColors.danger)),
+        ],
         const SizedBox(height: 28),
         Wrap(
           spacing: 12,

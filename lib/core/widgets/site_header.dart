@@ -17,6 +17,7 @@ abstract final class NavItems {
     NavItem('Architecture', '/architecture'),
     NavItem('Interiors', '/interiors'),
     NavItem('Real estate', '/real-estate'),
+    NavItem('Listings', '/listings'),
     NavItem('Work', '/work'),
     NavItem('Studio', '/studio'),
   ];
@@ -57,31 +58,43 @@ class SiteHeader extends StatelessWidget {
       child: Row(
         children: [
           _Wordmark(onTap: () => context.go('/')),
-          const Spacer(),
-          if (!compact)
-            Row(
-              children: [
-                for (final item in NavItems.all)
-                  _NavLink(
-                    label: item.label,
-                    selected: location == item.path ||
-                        (item.path == '/work' && location.startsWith('/work')),
-                    onTap: () => context.go(item.path),
+          if (!compact) ...[
+            const SizedBox(width: 16),
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      for (final item in NavItems.all)
+                        _NavLink(
+                          label: item.label,
+                          selected: location == item.path ||
+                              (item.path == '/work' && location.startsWith('/work')) ||
+                              (item.path == '/listings' && location.startsWith('/listings')),
+                          onTap: () => context.go(item.path),
+                        ),
+                      const SizedBox(width: 14),
+                      GoldButton(
+                        label: 'Start a concept',
+                        onPressed: () => context.go('/inquire'),
+                        variant: GoldButtonVariant.outline,
+                      ),
+                    ],
                   ),
-                const SizedBox(width: 18),
-                GoldButton(
-                  label: 'Start a concept',
-                  onPressed: () => context.go('/inquire'),
-                  variant: GoldButtonVariant.outline,
                 ),
-              ],
-            )
-          else
+              ),
+            ),
+          ] else ...[
+            const Spacer(),
             IconButton(
               onPressed: onMenu,
               icon: Icon(menuOpen ? Icons.close : Icons.menu, color: BcColors.ivory),
               tooltip: menuOpen ? 'Close menu' : 'Open menu',
             ),
+          ],
         ],
       ),
     );
@@ -181,7 +194,7 @@ class _NavLinkState extends State<_NavLink> {
   Widget build(BuildContext context) {
     final active = widget.selected || _hover;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: MouseRegion(
         onEnter: (_) => setState(() => _hover = true),
         onExit: (_) => setState(() => _hover = false),

@@ -8,6 +8,7 @@ import 'package:biconcept_in/core/theme/colors.dart';
 import 'package:biconcept_in/core/widgets/cta_band.dart';
 import 'package:biconcept_in/core/widgets/ken_burns.dart';
 import 'package:biconcept_in/core/widgets/reveal.dart';
+import 'package:biconcept_in/data/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -20,11 +21,17 @@ class WorkPage extends StatefulWidget {
 
 class _WorkPageState extends State<WorkPage> {
   PracticeKind? _filter;
+  late Future<List<Project>> _future;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = ShowcaseRepository().publishedProjects();
+  }
 
   @override
   Widget build(BuildContext context) {
     final compact = BcBreakpoints.isCompact(context);
-    final projects = _filter == null ? Projects.all : Projects.byKind(_filter!);
 
     return PageFrame(
       children: [
@@ -77,7 +84,21 @@ class _WorkPageState extends State<WorkPage> {
         PageInset(
           child: Padding(
             padding: EdgeInsets.only(bottom: compact ? 64 : 96),
-            child: _WorkGrid(projects: projects),
+            child: FutureBuilder<List<Project>>(
+              future: _future,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 64),
+                    child: Center(child: CircularProgressIndicator(color: BcColors.gold)),
+                  );
+                }
+                final all = snapshot.data ?? Projects.all;
+                final projects =
+                    _filter == null ? all : all.where((project) => project.kind == _filter).toList();
+                return _WorkGrid(projects: projects);
+              },
+            ),
           ),
         ),
         const CtaBand(),

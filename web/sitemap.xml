@@ -16,4 +16,5 @@
   <url><loc>https://biconcept.in/work/lake-edge-parcel</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://biconcept.in/studio</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://biconcept.in/inquire</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://biconcept.in/listings</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
 </urlset>

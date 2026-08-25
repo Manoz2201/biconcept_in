@@ -12,6 +12,8 @@ void main() {
     expect(SiteSeo.forPath('/architecture').faqs, isNotEmpty);
     expect(SiteSeo.forPath('/interiors').title, contains('Interior'));
     expect(SiteSeo.forPath('/real-estate').h1, 'Land, composed.');
+    expect(SiteSeo.listings.h1, 'NCR, by pocket.');
+    expect(SiteSeo.forPath('/listings/noida').path, '/listings');
     expect(SiteSeo.forPath('/missing').path, '/');
   });
 }

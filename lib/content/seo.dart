@@ -99,6 +99,7 @@ abstract final class SiteSeo {
   static PageSeo get work => forPath('/work');
   static PageSeo get studio => forPath('/studio');
   static PageSeo get inquire => forPath('/inquire');
+  static PageSeo get listings => forPath('/listings');
 
   static Future<void> load() async {
     final raw = await rootBundle.loadString(assetPath);
@@ -121,6 +122,15 @@ abstract final class SiteSeo {
   static PageSeo forPath(String path) {
     for (final page in _pages) {
       if (page.path == path) return page;
+    }
+    if (path.startsWith('/listings')) {
+      return const PageSeo(
+        path: '/listings',
+        title: 'NCR listings — BiConcept',
+        description:
+            'Upcoming and newly launched projects in Delhi, Noida, and Greater Noida, researched for BiConcept clients.',
+        h1: 'NCR, by pocket.',
+      );
     }
     if (path.startsWith('/work/')) {
       return forPath('/work').copyWith(
