@@ -16,6 +16,7 @@ class AgentConfig {
     this.siteUrl,
     this.fixturePath,
     this.dryRun = false,
+    this.geminiModel = 'gemini-3.6-flash',
   });
 
   final Directory root;
@@ -24,6 +25,7 @@ class AgentConfig {
   final String? siteUrl;
   final String? fixturePath;
   final bool dryRun;
+  final String geminiModel;
 }
 
 class AgentResult {
@@ -91,7 +93,10 @@ Future<AgentResult> runAgent(AgentConfig config) async {
   if (hasFixture) {
     proposals = GeminiClient.parseProposalJson(File(config.fixturePath!).readAsStringSync());
   } else {
-    proposals = await GeminiClient(apiKey: config.geminiApiKey!).propose(
+    proposals = await GeminiClient(
+      apiKey: config.geminiApiKey!,
+      model: config.geminiModel,
+    ).propose(
       pages: pages,
       keywords: keywords,
       serp: serp,

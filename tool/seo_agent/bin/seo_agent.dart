@@ -21,18 +21,25 @@ Future<void> main(List<String> args) async {
     }
   }
 
-  final result = await runAgent(
-    AgentConfig(
-      root: findRepoRoot(root),
-      geminiApiKey: Platform.environment['GEMINI_API_KEY'],
-      serperApiKey: Platform.environment['SERPER_API_KEY'],
-      siteUrl: Platform.environment['SITE_URL'],
-      fixturePath: fixture,
-      dryRun: dryRun,
-    ),
-  );
-  if (result.skipped && result.note != null) {
-    stdout.writeln(result.note);
+  try {
+    final result = await runAgent(
+      AgentConfig(
+        root: findRepoRoot(root),
+        geminiApiKey: Platform.environment['GEMINI_API_KEY'],
+        serperApiKey: Platform.environment['SERPER_API_KEY'],
+        siteUrl: Platform.environment['SITE_URL'],
+        geminiModel: Platform.environment['GEMINI_MODEL'] ?? 'gemini-3.6-flash',
+        fixturePath: fixture,
+        dryRun: dryRun,
+      ),
+    );
+    if (result.skipped && result.note != null) {
+      stdout.writeln(result.note);
+    }
+  } catch (error) {
+    stderr.writeln(error);
+    exitCode = 1;
+    return;
   }
   exitCode = 0;
 }

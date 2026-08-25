@@ -4,10 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:seo_agent/models.dart';
 
 class GeminiClient {
-  GeminiClient({required this.apiKey, http.Client? httpClient})
-      : _http = httpClient ?? http.Client();
+  GeminiClient({
+    required this.apiKey,
+    this.model = 'gemini-3.6-flash',
+    http.Client? httpClient,
+  }) : _http = httpClient ?? http.Client();
 
   final String apiKey;
+  final String model;
   final http.Client _http;
 
   Future<List<PageProposal>> propose({
@@ -17,7 +21,7 @@ class GeminiClient {
     required List<Map<String, dynamic>> selfAudit,
   }) async {
     final uri = Uri.parse(
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey',
+      'https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey',
     );
     final prompt = _prompt(
       pages: pages,
