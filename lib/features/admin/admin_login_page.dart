@@ -1,3 +1,4 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:biconcept_in/core/theme/colors.dart';
 import 'package:biconcept_in/core/widgets/gold_button.dart';
 import 'package:biconcept_in/core/widgets/reveal.dart';
@@ -50,7 +51,15 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
       await _auth.login(username: _username.text, password: _password.text);
       if (!mounted) return;
       context.go('/admin');
-    } catch (error) {
+    } on AppwriteException catch (error) {
+      if (!mounted) return;
+      setState(() {
+        _busy = false;
+        _error = error.message?.trim().isNotEmpty == true
+            ? error.message!
+            : 'Sign-in failed. Check the studio username and password.';
+      });
+    } catch (_) {
       if (!mounted) return;
       setState(() {
         _busy = false;

@@ -40,11 +40,28 @@ class AuthRepository {
   }
 
   Future<models.User> login({required String username, required String password}) async {
-    await _account.createEmailPasswordSession(
-      email: AppwriteConfig.emailFromUsername(username),
-      password: password,
-    );
-    return _account.get();
+    AppwriteException? last;
+    for (final email in _loginEmails(username)) {
+      try {
+        await _account.createEmailPasswordSession(email: email, password: password);
+        return await _account.get();
+      } on AppwriteException catch (error) {
+        last = error;
+      }
+    }
+    throw last ?? AppwriteException('Sign-in failed.');
+  }
+
+  static List<String> _loginEmails(String username) {
+    final trimmed = username.trim();
+    if (trimmed.contains('@')) return [trimmed];
+    if (trimmed.toLowerCase() == 'manozsingharya') {
+      return const [
+        'manozsingharya@biconcept.in',
+        'manozsingharya@gmail.com',
+      ];
+    }
+    return [AppwriteConfig.emailFromUsername(trimmed)];
   }
 
   Future<void> logout() async {
