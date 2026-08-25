@@ -5,8 +5,8 @@
 /// registration, Auth cookies and CORS fail in the browser.
 abstract final class AppwriteConfig {
   static const endpoint = 'https://sgp.cloud.appwrite.io/v1';
-  static const projectId = '6a86a3d4001d87aa9809';
-  static const databaseId = '6a86ad9300190bcdd0df';
+  static const projectId = '6a8de2d2003a8c9f54fe';
+  static const databaseId = 'biconcept';
 
   static const tableListings = 'listings';
   static const tableLeads = 'leads';

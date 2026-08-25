@@ -9,9 +9,8 @@ Future<void> main(List<String> args) async {
   final appwriteKey = Platform.environment['APPWRITE_API_KEY'] ?? '';
   final endpoint =
       Platform.environment['APPWRITE_ENDPOINT'] ?? 'https://sgp.cloud.appwrite.io/v1';
-  final projectId = Platform.environment['APPWRITE_PROJECT_ID'] ?? '6a86a3d4001d87aa9809';
-  final databaseId =
-      Platform.environment['APPWRITE_DATABASE_ID'] ?? '6a86ad9300190bcdd0df';
+  final projectId = Platform.environment['APPWRITE_PROJECT_ID'] ?? '6a8de2d2003a8c9f54fe';
+  final databaseId = Platform.environment['APPWRITE_DATABASE_ID'] ?? 'biconcept';
   final model = Platform.environment['GEMINI_MODEL'] ?? 'gemini-3.6-flash';
 
   if (geminiKey.isEmpty || serperKey.isEmpty) {
