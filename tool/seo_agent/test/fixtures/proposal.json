@@ -1,0 +1,47 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "change": true,
+      "reason": "Tighten title around architecture + interiors + land for India queries.",
+      "title": "BiConcept | Architecture, Interiors, Real Estate India",
+      "description": "BiConcept is a conceptual studio for architecture, interior design, and land across India. One idea, from first sketch to occupied space.",
+      "h1": "One concept. Every scale.",
+      "keywords": [
+        "architecture studio India",
+        "interior design India",
+        "luxury real estate advisory"
+      ],
+      "faqs": [
+        {
+          "question": "What does BiConcept do?",
+          "answer": "BiConcept is a conceptual studio for architecture, interior design, and real estate — from first sketch to occupied space and land."
+        },
+        {
+          "question": "Where does BiConcept work?",
+          "answer": "We work across India, with selected commissions further afield when the brief asks for a single, coherent concept."
+        }
+      ]
+    },
+    {
+      "path": "/architecture",
+      "change": true,
+      "reason": "Add villa/residential intent without inventing locations.",
+      "title": "Architecture Studio — Villas & Residences | BiConcept",
+      "description": "BiConcept architecture: villas, residences, and developments held as one spatial idea, from massing through construction in India.",
+      "h1": "Architecture as a held idea.",
+      "keywords": ["villa architect India", "residential architect", "architecture studio"],
+      "faqs": [
+        {
+          "question": "What architecture work does BiConcept take on?",
+          "answer": "Villas, residences, and developments — from first massing through construction, held as a single spatial idea."
+        }
+      ]
+    },
+    {
+      "path": "/work",
+      "change": false,
+      "reason": "Portfolio title is already specific enough."
+    }
+  ]
+}

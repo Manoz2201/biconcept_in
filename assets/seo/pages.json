@@ -1,0 +1,101 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "BiConcept — Architecture, Interiors & Real Estate",
+      "description": "BiConcept conceives architecture, interior design, and real estate as one idea. A conceptual studio for homes, developments, and land across India.",
+      "h1": "One concept. Every scale.",
+      "keywords": [
+        "architecture India",
+        "interior design studio",
+        "luxury real estate advisory",
+        "BiConcept"
+      ],
+      "faqs": [
+        {
+          "question": "What does BiConcept do?",
+          "answer": "BiConcept is a conceptual studio for architecture, interior design, and real estate — from first sketch to occupied space and land."
+        },
+        {
+          "question": "Where does BiConcept work?",
+          "answer": "We work across India, with selected commissions further afield when the brief asks for a single, coherent concept."
+        }
+      ]
+    },
+    {
+      "path": "/architecture",
+      "title": "Architecture — BiConcept",
+      "description": "Architectural design by BiConcept: villas, residences, and developments composed as enduring spatial ideas.",
+      "h1": "Architecture as a held idea.",
+      "keywords": ["architect India", "villa architecture", "residential architect"],
+      "faqs": [
+        {
+          "question": "What architecture work does BiConcept take on?",
+          "answer": "Villas, residences, and developments — from first massing through construction, held as a single spatial idea."
+        },
+        {
+          "question": "Do you handle planning drawings?",
+          "answer": "Yes. Concept, planning, detailed architectural sets, and site coordination are part of the architecture practice."
+        }
+      ]
+    },
+    {
+      "path": "/interiors",
+      "title": "Interior Design — BiConcept",
+      "description": "Interior design by BiConcept: material, light, and proportion composed for how a space is actually lived.",
+      "h1": "Interiors with architectural calm.",
+      "keywords": ["interior designer India", "luxury interiors", "residential interiors"],
+      "faqs": [
+        {
+          "question": "Is interior design a separate service?",
+          "answer": "It is its own practice, but it is composed the way we compose buildings — light, material, and furniture as one temperature."
+        },
+        {
+          "question": "Do you specify furniture and lighting?",
+          "answer": "Yes. Layouts, custom millwork, FF&E, and styling through installation."
+        }
+      ]
+    },
+    {
+      "path": "/real-estate",
+      "title": "Real Estate — BiConcept",
+      "description": "Real estate advisory by BiConcept: land, residences, and developments selected and shaped with a designer’s eye.",
+      "h1": "Land, composed.",
+      "keywords": ["real estate India", "luxury property", "land advisory"],
+      "faqs": [
+        {
+          "question": "Is this a brokerage?",
+          "answer": "We advise on residences, plots, and developments with a designer’s eye — selecting and shaping property as a long idea, not a listing mill."
+        },
+        {
+          "question": "Can architecture follow a land purchase?",
+          "answer": "Yes. When the brief continues, we hand off into architecture or interiors after close."
+        }
+      ]
+    },
+    {
+      "path": "/work",
+      "title": "Selected Work — BiConcept",
+      "description": "Selected architecture, interior, and real estate work by BiConcept. Case studies of spaces conceived as one concept.",
+      "h1": "Selected work.",
+      "keywords": ["architecture portfolio", "interior projects", "BiConcept work"],
+      "faqs": []
+    },
+    {
+      "path": "/studio",
+      "title": "Studio — BiConcept",
+      "description": "The BiConcept studio: a conceptual practice for architecture, interiors, and real estate, composed as a single idea.",
+      "h1": "A studio of one concept.",
+      "keywords": ["design studio India", "architecture studio", "about BiConcept"],
+      "faqs": []
+    },
+    {
+      "path": "/inquire",
+      "title": "Start a concept — BiConcept",
+      "description": "Begin a BiConcept consultation for architecture, interior design, or real estate. Tell us the brief. We will compose the first idea.",
+      "h1": "Start a concept.",
+      "keywords": ["architecture consultation", "interior design inquiry"],
+      "faqs": []
+    }
+  ]
+}

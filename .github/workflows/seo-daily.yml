@@ -1,0 +1,52 @@
+name: Daily SEO agent
+
+on:
+  schedule:
+    - cron: "30 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  seo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install agent deps
+        working-directory: tool/seo_agent
+        run: dart pub get
+
+      - name: Run SEO agent
+        working-directory: tool/seo_agent
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+        run: dart run bin/seo_agent.dart --root "${{ github.workspace }}"
+
+      - name: Open pull request if copy changed
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: seo/daily
+          delete-branch: true
+          title: "seo: daily copy proposals"
+          commit-message: "seo: apply daily agent proposals"
+          body: |
+            Daily 12:00 IST SEO agent run.
+
+            Review title, description, H1, and FAQ changes before merge.
+            The agent does not auto-deploy.
+          add-paths: |
+            assets/seo/pages.json
+            assets/seo/runs/**
+            web/sitemap.xml
+            web/index.html
