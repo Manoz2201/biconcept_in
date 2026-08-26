@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:agent_runtime/agent_runtime.dart';
 import 'package:dart_appwrite/dart_appwrite.dart';
 import 'package:http/http.dart' as http;
 
@@ -125,13 +126,11 @@ class GeminiOffers {
   final http.Client _http;
 
   Future<List<StudioOfferDraft>> propose() async {
-    final uri = Uri.parse(
-      'https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey',
-    );
-    final response = await _http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
+    final response = await postGeminiGenerate(
+      httpClient: _http,
+      apiKey: apiKey,
+      model: model,
+      body: {
         'contents': [
           {
             'parts': [
@@ -143,11 +142,8 @@ class GeminiOffers {
           'temperature': 0.4,
           'responseMimeType': 'application/json',
         },
-      }),
+      },
     );
-    if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw StateError('Gemini HTTP ${response.statusCode}: ${response.body}');
-    }
     final decoded = jsonDecode(response.body) as Map<String, dynamic>;
     return parseOffersJson(_extractText(decoded));
   }

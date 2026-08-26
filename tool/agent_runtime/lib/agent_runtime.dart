@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:dart_appwrite/dart_appwrite.dart';
 
+export 'gemini_http.dart';
+
 class QueuedJob {
   const QueuedJob({
     required this.id,

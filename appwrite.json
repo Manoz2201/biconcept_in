@@ -13,7 +13,7 @@
       "entrypoint": "lib/main.dart",
       "commands": "dart pub get",
       "path": "functions/studio-concierge",
-      "timeout": 60,
+      "timeout": 120,
       "scopes": [
         "tables.read",
         "tables.write",

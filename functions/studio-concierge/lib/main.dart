@@ -20,8 +20,9 @@ Future<dynamic> main(final context) async {
     final geminiKey = Platform.environment['GEMINI_API_KEY'] ?? '';
     final apiKey = Platform.environment['APPWRITE_API_KEY'] ??
         Platform.environment['APPWRITE_FUNCTION_API_KEY'] ?? '';
-    if (geminiKey.isEmpty || apiKey.isEmpty) {
-      return context.res.json({'reply': 'Concierge is missing Function secrets.'}, status: 500);
+    final publishAll = wantsPublishAllListings(message);
+    if (apiKey.isEmpty || (geminiKey.isEmpty && !publishAll)) {
+      return context.res.json({'reply': 'Concierge is missing Function secrets.'});
     }
 
     final endpoint = Platform.environment['APPWRITE_FUNCTION_API_ENDPOINT'] ??
@@ -36,27 +37,44 @@ Future<dynamic> main(final context) async {
       Client().setEndpoint(endpoint).setProject(projectId).setKey(apiKey),
     );
     final jobs = JobTracker(tables: tables, databaseId: databaseId);
-    final jobId = await jobs.start(jobId: '${payload['jobId'] ?? ''}');
+    var jobId = '';
+    try {
+      jobId = await jobs.start(jobId: '${payload['jobId'] ?? ''}');
+    } catch (error) {
+      context.error('job start: $error');
+    }
 
     try {
       final agent = ConciergeAgent(
         gemini: HttpGemini(
-          apiKey: geminiKey,
+          apiKey: geminiKey.isEmpty ? 'unused' : geminiKey,
           model: Platform.environment['GEMINI_MODEL'] ?? 'gemini-3.6-flash',
         ),
         cms: AppwriteCms(tables: tables, databaseId: databaseId),
       );
       final reply = await agent.handle(message);
-      await jobs.finish(jobId, ok: true, summary: reply.length > 180 ? '${reply.substring(0, 180)}…' : reply);
+      await _finishJob(jobs, jobId, ok: true, summary: reply);
       return context.res.json({'reply': reply});
     } catch (error) {
-      await jobs.finish(jobId, ok: false, summary: error.toString());
-      rethrow;
+      final reply = friendlyConciergeError(error);
+      await _finishJob(jobs, jobId, ok: false, summary: reply);
+      return context.res.json({'reply': reply});
     }
   } catch (error) {
     context.error('$error');
-    return context.res.json({'reply': 'Concierge failed: $error'}, status: 500);
+    return context.res.json({'reply': friendlyConciergeError(error)});
   }
+}
+
+Future<void> _finishJob(JobTracker jobs, String jobId, {required bool ok, required String summary}) async {
+  if (jobId.isEmpty) return;
+  try {
+    await jobs.finish(
+      jobId,
+      ok: ok,
+      summary: summary.length > 180 ? '${summary.substring(0, 180)}…' : summary,
+    );
+  } catch (_) {}
 }
 
 Map<String, dynamic> _payload(dynamic context) {

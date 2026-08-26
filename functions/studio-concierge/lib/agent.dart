@@ -24,6 +24,7 @@ abstract class GeminiLoop {
 abstract class StudioCms {
   Future<Map<String, dynamic>> upsertListing(Map<String, dynamic> args);
   Future<Map<String, dynamic>> publishListing(Map<String, dynamic> args);
+  Future<Map<String, dynamic>> publishAllListings();
   Future<Map<String, dynamic>> listListings();
   Future<Map<String, dynamic>> upsertOffer(Map<String, dynamic> args);
   Future<Map<String, dynamic>> listLeads();
@@ -67,6 +68,12 @@ const toolDeclarations = [
         'city': {'type': 'string'},
       },
     },
+  },
+  {
+    'name': 'publish_all_listings',
+    'description':
+        'Publish every unpublished listing to the public site. Use this when the user says publish all listings.',
+    'parameters': {'type': 'object', 'properties': {}},
   },
   {
     'name': 'list_listings',
@@ -114,6 +121,42 @@ const toolDeclarations = [
   },
 ];
 
+bool wantsPublishAllListings(String message) {
+  final t = message.toLowerCase();
+  final listings = t.contains('listing');
+  final publish = t.contains('publish') || t.contains('go live') || t.contains('make live') || t.contains('live');
+  final all = t.contains('all') || t.contains('every') || t.contains('drafts');
+  return listings && publish && all;
+}
+
+String friendlyConciergeError(Object error) {
+  final text = error.toString();
+  if (text.contains('503') || text.contains('UNAVAILABLE') || text.contains('high demand')) {
+    return 'Gemini is busy right now. Wait a minute and try again, or send “publish all listings”.';
+  }
+  if (text.contains('429')) {
+    return 'Gemini rate-limited the studio. Try again in a minute.';
+  }
+  if (text.contains('No element') || text.contains('no candidates')) {
+    return 'The concierge got an empty Gemini reply. Send “publish all listings” to take drafts live without Gemini.';
+  }
+  return 'Concierge failed. Try again in a minute.';
+}
+
+String summarizePublishAll(Map<String, dynamic> result) {
+  final error = '${result['error'] ?? ''}'.trim();
+  if (error.isNotEmpty) return error;
+  final names = [
+    for (final item in result['published'] as List? ?? const []) '$item',
+  ];
+  final count = result['publishedCount'] is int ? result['publishedCount'] as int : names.length;
+  if (count == 0) {
+    return 'All listings are already live on the public site.';
+  }
+  final shown = names.take(12).join(', ');
+  return 'Published $count listing${count == 1 ? '' : 's'}: $shown.';
+}
+
 class ConciergeAgent {
   ConciergeAgent({required this.gemini, required this.cms});
 
@@ -121,13 +164,16 @@ class ConciergeAgent {
   final StudioCms cms;
 
   Future<String> handle(String message) async {
+    if (wantsPublishAllListings(message)) {
+      return summarizePublishAll(await cms.publishAllListings());
+    }
     final contents = <Map<String, dynamic>>[
       {
         'role': 'user',
         'parts': [
           {
             'text':
-                'You are BiConcept studio concierge. Use tools to write listings, offers, and lead status. Listings you create or update must be published on the public site unless the user asks to keep a draft. Use publish_listing to take existing drafts live. Never ask for passwords or API keys. Never mention secrets.\n\nUser: $message',
+                'You are BiConcept studio concierge. Use tools to write listings, offers, and lead status. Listings you create or update must be published on the public site unless the user asks to keep a draft. Use publish_all_listings when the user wants every draft live. Use publish_listing for one listing. Never ask for passwords or API keys. Never mention secrets.\n\nUser: $message',
           },
         ],
       },
@@ -175,6 +221,8 @@ class ConciergeAgent {
         return cms.upsertListing(call.args);
       case 'publish_listing':
         return cms.publishListing(call.args);
+      case 'publish_all_listings':
+        return cms.publishAllListings();
       case 'list_listings':
         return cms.listListings();
       case 'upsert_offer':
@@ -195,39 +243,68 @@ class ConciergeAgent {
 }
 
 class HttpGemini implements GeminiLoop {
-  HttpGemini({required this.apiKey, this.model = 'gemini-3.6-flash', http.Client? httpClient})
-      : _http = httpClient ?? http.Client();
+  HttpGemini({
+    required this.apiKey,
+    this.model = 'gemini-3.6-flash',
+    this.fallbackModels = const ['gemini-2.5-flash'],
+    http.Client? httpClient,
+  }) : _http = httpClient ?? http.Client();
 
   final String apiKey;
   final String model;
+  final List<String> fallbackModels;
   final http.Client _http;
 
   @override
   Future<GeminiTurn> next(List<Map<String, dynamic>> contents) async {
-    final uri = Uri.parse(
-      'https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey',
-    );
-    final response = await _http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'contents': contents,
-        'tools': [
-          {'functionDeclarations': toolDeclarations},
-        ],
-      }),
-    );
-    if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw StateError('Gemini HTTP ${response.statusCode}: ${response.body}');
+    final payload = {
+      'contents': contents,
+      'tools': [
+        {'functionDeclarations': toolDeclarations},
+      ],
+    };
+    final models = [model, ...fallbackModels.where((name) => name != model)];
+    http.Response? last;
+    for (final name in models) {
+      final uri = Uri.parse(
+        'https://generativelanguage.googleapis.com/v1beta/models/$name:generateContent?key=$apiKey',
+      );
+      for (var attempt = 0; attempt < 3; attempt++) {
+        last = await _http.post(
+          uri,
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(payload),
+        );
+        if (last.statusCode >= 200 && last.statusCode < 300) {
+          final decoded = jsonDecode(last.body);
+          if (decoded is! Map) {
+            return const GeminiTurn();
+          }
+          return parseGeminiTurn(Map<String, dynamic>.from(decoded));
+        }
+        final retryable = last.statusCode == 429 || last.statusCode == 503;
+        if (!retryable) break;
+        await Future<void>.delayed(Duration(milliseconds: 400 * (attempt + 1) * (attempt + 1)));
+      }
+      if (last != null && last.statusCode != 404 && last.statusCode != 429 && last.statusCode != 503) {
+        throw StateError('Gemini HTTP ${last.statusCode}: ${last.body}');
+      }
     }
-    return parseGeminiTurn(jsonDecode(response.body) as Map<String, dynamic>);
+    throw StateError('Gemini HTTP ${last?.statusCode ?? 0}: ${last?.body ?? 'empty response'}');
   }
 }
 
 GeminiTurn parseGeminiTurn(Map<String, dynamic> body) {
   final candidates = body['candidates'] as List? ?? const [];
-  if (candidates.isEmpty) return const GeminiTurn(text: '');
-  final content = (candidates.first as Map)['content'] as Map?;
+  Map<Object?, Object?>? candidate;
+  for (final item in candidates) {
+    if (item is Map) {
+      candidate = item;
+      break;
+    }
+  }
+  if (candidate == null) return const GeminiTurn();
+  final content = candidate['content'] as Map?;
   final parts = content?['parts'] as List? ?? const [];
   String? text;
   FunctionCall? call;
@@ -236,7 +313,7 @@ GeminiTurn parseGeminiTurn(Map<String, dynamic> body) {
     if (part['text'] is String) {
       text = '${text ?? ''}${part['text']}';
     }
-    final fn = part['functionCall'];
+    final fn = part['functionCall'] ?? part['function_call'];
     if (fn is Map) {
       final args = fn['args'];
       call = FunctionCall(
@@ -379,11 +456,43 @@ class AppwriteCms implements StudioCms {
   }
 
   @override
+  Future<Map<String, dynamic>> publishAllListings() async {
+    final result = await _tables.listRows(
+      databaseId: databaseId,
+      tableId: 'listings',
+      queries: [Query.limit(100)],
+    );
+    final published = <String>[];
+    var alreadyLive = 0;
+    for (final row in result.rows) {
+      final title = '${row.data['title'] ?? ''}'.trim();
+      if (row.data['published'] == true) {
+        alreadyLive += 1;
+        continue;
+      }
+      await _tables.updateRow(
+        databaseId: databaseId,
+        tableId: 'listings',
+        rowId: row.$id,
+        data: {'published': true},
+        permissions: _perms(true),
+      );
+      published.add(title.isEmpty ? row.$id : title);
+    }
+    return {
+      'ok': true,
+      'publishedCount': published.length,
+      'alreadyLive': alreadyLive,
+      'published': published,
+    };
+  }
+
+  @override
   Future<Map<String, dynamic>> listListings() async {
     final result = await _tables.listRows(
       databaseId: databaseId,
       tableId: 'listings',
-      queries: [Query.orderDesc('\$createdAt'), Query.limit(30)],
+      queries: [Query.limit(30)],
     );
     return {
       'listings': [

@@ -20,6 +20,7 @@ class FakeCms implements StudioCms {
   Map<String, dynamic>? lastOffer;
   Map<String, dynamic>? lastListing;
   Map<String, dynamic>? lastPublish;
+  bool publishedAll = false;
 
   @override
   Future<Map<String, dynamic>> upsertListing(Map<String, dynamic> args) async {
@@ -31,6 +32,17 @@ class FakeCms implements StudioCms {
   Future<Map<String, dynamic>> publishListing(Map<String, dynamic> args) async {
     lastPublish = args;
     return {'ok': true, 'id': args['id'] ?? 'listing-1', 'published': true};
+  }
+
+  @override
+  Future<Map<String, dynamic>> publishAllListings() async {
+    publishedAll = true;
+    return {
+      'ok': true,
+      'publishedCount': 1,
+      'alreadyLive': 1,
+      'published': ['Godrej Jardinia'],
+    };
   }
 
   @override
@@ -124,5 +136,28 @@ void main() {
     expect(cms.lastPublish, isNotNull);
     expect(cms.lastPublish!['id'], 'listing-1');
     expect(reply, contains('live'));
+  });
+
+  test('publish all listings shortcut skips Gemini', () async {
+    final cms = FakeCms();
+    final gemini = FakeGemini([]);
+    final agent = ConciergeAgent(gemini: gemini, cms: cms);
+    final reply = await agent.handle('publish all the listing');
+    expect(cms.publishedAll, isTrue);
+    expect(gemini.index, 0);
+    expect(reply, contains('Published 1 listing'));
+    expect(reply, contains('Godrej Jardinia'));
+  });
+
+  test('parseGeminiTurn stays empty when Gemini returns no candidates', () {
+    final turn = parseGeminiTurn({'candidates': []});
+    expect(turn.text, isNull);
+    expect(turn.call, isNull);
+  });
+
+  test('wantsPublishAllListings matches studio phrasing', () {
+    expect(wantsPublishAllListings('publish all the listing'), isTrue);
+    expect(wantsPublishAllListings('make every listing live'), isTrue);
+    expect(wantsPublishAllListings('list the leads'), isFalse);
   });
 }

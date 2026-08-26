@@ -550,7 +550,9 @@ class ConciergeRepository {
       }
       return body;
     } on AppwriteException catch (error) {
-      throw StateError(error.message ?? 'Concierge is not deployed yet.');
+      return error.message ?? 'Concierge is not deployed yet.';
+    } catch (error) {
+      return error.toString();
     }
   }
 }

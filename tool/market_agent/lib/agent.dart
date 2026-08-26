@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:agent_runtime/agent_runtime.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dart_appwrite/dart_appwrite.dart';
 import 'package:http/http.dart' as http;
@@ -156,13 +157,11 @@ class GeminiResearch {
   final http.Client _http;
 
   Future<List<ResearchListing>> extract(List<SerpSnippet> serp) async {
-    final uri = Uri.parse(
-      'https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey',
-    );
-    final response = await _http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
+    final response = await postGeminiGenerate(
+      httpClient: _http,
+      apiKey: apiKey,
+      model: model,
+      body: {
         'contents': [
           {
             'parts': [
@@ -174,11 +173,8 @@ class GeminiResearch {
           'temperature': 0.2,
           'responseMimeType': 'application/json',
         },
-      }),
+      },
     );
-    if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw StateError('Gemini HTTP ${response.statusCode}: ${response.body}');
-    }
     final decoded = jsonDecode(response.body) as Map<String, dynamic>;
     return parseResearchJson(_extractText(decoded));
   }

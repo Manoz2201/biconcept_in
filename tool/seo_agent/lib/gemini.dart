@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:agent_runtime/agent_runtime.dart';
 import 'package:http/http.dart' as http;
 import 'package:seo_agent/models.dart';
 
@@ -20,19 +21,17 @@ class GeminiClient {
     required List<SerpSnippet> serp,
     required List<Map<String, dynamic>> selfAudit,
   }) async {
-    final uri = Uri.parse(
-      'https://generativelanguage.googleapis.com/v1beta/models/$model:generateContent?key=$apiKey',
-    );
     final prompt = _prompt(
       pages: pages,
       keywords: keywords,
       serp: serp,
       selfAudit: selfAudit,
     );
-    final response = await _http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
+    final response = await postGeminiGenerate(
+      httpClient: _http,
+      apiKey: apiKey,
+      model: model,
+      body: {
         'contents': [
           {
             'parts': [
@@ -44,11 +43,8 @@ class GeminiClient {
           'temperature': 0.4,
           'responseMimeType': 'application/json',
         },
-      }),
+      },
     );
-    if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw StateError('Gemini HTTP ${response.statusCode}: ${response.body}');
-    }
     final decoded = jsonDecode(response.body) as Map<String, dynamic>;
     final text = _extractText(decoded);
     return parseProposalJson(text);
