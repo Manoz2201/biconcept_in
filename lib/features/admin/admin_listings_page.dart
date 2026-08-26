@@ -47,7 +47,7 @@ class _AdminListingsPageState extends State<AdminListingsPage> {
         future: _future,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator(color: BcColors.gold));
+            return const Center(child: CircularProgressIndicator(color: BcAdminColors.gold));
           }
           if (snapshot.hasError) {
             return AdminError('Could not load listings.', onRetry: _reload);
@@ -63,8 +63,8 @@ class _AdminListingsPageState extends State<AdminListingsPage> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: BcColors.charcoal,
-                    border: Border.all(color: BcColors.line),
+                    color: BcAdminColors.charcoal,
+                    border: Border.all(color: BcAdminColors.line),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +171,7 @@ class _ListingEditorState extends State<_ListingEditor> {
   Widget build(BuildContext context) {
     final city = NcrLocations.bySlug(_city) ?? NcrLocations.noida;
     return AlertDialog(
-      backgroundColor: BcColors.panel,
+      backgroundColor: BcAdminColors.panel,
       title: Text(widget.listing == null ? 'Add listing' : 'Edit listing'),
       content: SizedBox(
         width: 520,
@@ -184,7 +184,7 @@ class _ListingEditorState extends State<_ListingEditor> {
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 initialValue: _city,
-                dropdownColor: BcColors.charcoal,
+                dropdownColor: BcAdminColors.charcoal,
                 decoration: const InputDecoration(labelText: 'CITY'),
                 items: [
                   for (final item in NcrLocations.all)
@@ -198,7 +198,7 @@ class _ListingEditorState extends State<_ListingEditor> {
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 initialValue: city.sectorBySlug(_sector) == null ? null : _sector,
-                dropdownColor: BcColors.charcoal,
+                dropdownColor: BcAdminColors.charcoal,
                 decoration: InputDecoration(labelText: city.sectorNoun.toUpperCase()),
                 items: [
                   const DropdownMenuItem(value: '', child: Text('Unspecified')),
@@ -212,7 +212,7 @@ class _ListingEditorState extends State<_ListingEditor> {
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 initialValue: _statuses.contains(_status) ? _status : 'upcoming',
-                dropdownColor: BcColors.charcoal,
+                dropdownColor: BcAdminColors.charcoal,
                 decoration: const InputDecoration(labelText: 'STATUS'),
                 items: [
                   for (final item in _statuses) DropdownMenuItem(value: item, child: Text(item)),
@@ -222,7 +222,7 @@ class _ListingEditorState extends State<_ListingEditor> {
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 initialValue: _typologies.contains(_typology) ? _typology : 'apartment',
-                dropdownColor: BcColors.charcoal,
+                dropdownColor: BcAdminColors.charcoal,
                 decoration: const InputDecoration(labelText: 'TYPOLOGY'),
                 items: [
                   for (final item in _typologies) DropdownMenuItem(value: item, child: Text(item)),
@@ -245,7 +245,7 @@ class _ListingEditorState extends State<_ListingEditor> {
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Published'),
                 value: _published,
-                activeThumbColor: BcColors.gold,
+                activeThumbColor: BcAdminColors.gold,
                 onChanged: (value) => setState(() => _published = value),
               ),
             ],

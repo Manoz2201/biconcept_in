@@ -1,7 +1,8 @@
 /// Public Appwrite IDs only. Never put API keys or passwords in the client.
 ///
 /// Web sessions require this hostname as an Appwrite **Web** platform:
-/// `localhost` (dev) and later `biconcept.in` (production). Without that
+/// Web sessions require this hostname as an Appwrite **Web** platform:
+/// `localhost` (dev) and `manoz2201.github.io` (GitHub Pages). Without that
 /// registration, Auth cookies and CORS fail in the browser.
 abstract final class AppwriteConfig {
   static const endpoint = 'https://sgp.cloud.appwrite.io/v1';
@@ -12,7 +13,10 @@ abstract final class AppwriteConfig {
   static const tableLeads = 'leads';
   static const tableShowcase = 'showcase';
   static const tableServices = 'services';
+  static const tableOffers = 'offers';
+  static const tableAgentJobs = 'agent_jobs';
   static const bucketMedia = 'media';
+  static const functionConcierge = 'studio-concierge';
 
   static const adminEmailDomain = 'biconcept.in';
 

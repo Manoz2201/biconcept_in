@@ -1,0 +1,16 @@
+name: offers_agent
+description: Daily NCR studio offers agent — Gemini proposals, published Appwrite offers (cap 2).
+publish_to: "none"
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  agent_runtime:
+    path: ../agent_runtime
+  dart_appwrite: ^19.3.0
+  http: ^1.6.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.26.3

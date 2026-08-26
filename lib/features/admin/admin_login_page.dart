@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:biconcept_in/core/theme/colors.dart';
+import 'package:biconcept_in/core/theme/theme.dart';
 import 'package:biconcept_in/core/widgets/gold_button.dart';
 import 'package:biconcept_in/core/widgets/reveal.dart';
 import 'package:biconcept_in/data/repositories.dart';
@@ -74,56 +75,59 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 420),
-          child: Padding(
-            padding: const EdgeInsets.all(28),
-            child: Form(
-              key: _form,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'BiConcept',
-                    style: GoogleFonts.cormorantGaramond(
-                      fontSize: 28,
-                      color: BcColors.ivory,
-                      fontWeight: FontWeight.w500,
+    return Theme(
+      data: BcTheme.admin,
+      child: Scaffold(
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 420),
+            child: Padding(
+              padding: const EdgeInsets.all(28),
+              child: Form(
+                key: _form,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'BiConcept',
+                      style: GoogleFonts.cormorantGaramond(
+                        fontSize: 28,
+                        color: BcAdminColors.ivory,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  const Kicker('Studio console'),
-                  const SizedBox(height: 28),
-                  TextFormField(
-                    controller: _username,
-                    autofillHints: const [AutofillHints.username],
-                    decoration: const InputDecoration(labelText: 'USERNAME'),
-                    validator: (value) =>
-                        (value == null || value.trim().isEmpty) ? 'Username required.' : null,
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _password,
-                    obscureText: true,
-                    autofillHints: const [AutofillHints.password],
-                    decoration: const InputDecoration(labelText: 'PASSWORD'),
-                    onFieldSubmitted: (_) => _submit(),
-                    validator: (value) =>
-                        (value == null || value.isEmpty) ? 'Password required.' : null,
-                  ),
-                  if (_error != null) ...[
+                    const SizedBox(height: 8),
+                    const Kicker('Studio console'),
+                    const SizedBox(height: 28),
+                    TextFormField(
+                      controller: _username,
+                      autofillHints: const [AutofillHints.username],
+                      decoration: const InputDecoration(labelText: 'USERNAME'),
+                      validator: (value) =>
+                          (value == null || value.trim().isEmpty) ? 'Username required.' : null,
+                    ),
                     const SizedBox(height: 16),
-                    Text(_error!, style: const TextStyle(color: BcColors.danger)),
+                    TextFormField(
+                      controller: _password,
+                      obscureText: true,
+                      autofillHints: const [AutofillHints.password],
+                      decoration: const InputDecoration(labelText: 'PASSWORD'),
+                      onFieldSubmitted: (_) => _submit(),
+                      validator: (value) =>
+                          (value == null || value.isEmpty) ? 'Password required.' : null,
+                    ),
+                    if (_error != null) ...[
+                      const SizedBox(height: 16),
+                      Text(_error!, style: const TextStyle(color: BcAdminColors.danger)),
+                    ],
+                    const SizedBox(height: 28),
+                    GoldButton(
+                      label: _busy ? 'Signing in…' : 'Enter console',
+                      onPressed: _busy ? null : _submit,
+                    ),
                   ],
-                  const SizedBox(height: 28),
-                  GoldButton(
-                    label: _busy ? 'Signing in…' : 'Enter console',
-                    onPressed: _busy ? null : _submit,
-                  ),
-                ],
+                ),
               ),
             ),
           ),

@@ -13,6 +13,7 @@ class Inquiry {
     required this.email,
     required this.message,
     this.listingId = '',
+    this.offer = '',
   });
 
   final PracticeKind practice;
@@ -25,6 +26,7 @@ class Inquiry {
   final String email;
   final String message;
   final String listingId;
+  final String offer;
 }
 
 class InquiryRepository {
@@ -46,6 +48,7 @@ class InquiryRepository {
       budgetBand: inquiry.budgetBand,
       message: inquiry.message,
       listingId: inquiry.listingId,
+      offer: inquiry.offer,
     );
   }
 }

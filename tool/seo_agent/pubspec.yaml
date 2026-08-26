@@ -6,6 +6,8 @@ environment:
   sdk: ^3.13.0
 
 dependencies:
+  agent_runtime:
+    path: ../agent_runtime
   http: ^1.6.0
   path: ^1.9.1
 

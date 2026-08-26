@@ -35,7 +35,7 @@ class _AdminLeadsPageState extends State<AdminLeadsPage> {
         future: _future,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator(color: BcColors.gold));
+            return const Center(child: CircularProgressIndicator(color: BcAdminColors.gold));
           }
           if (snapshot.hasError) {
             return AdminError('Could not load leads.', onRetry: _reload);
@@ -86,8 +86,8 @@ class _LeadCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: BcColors.charcoal,
-        border: Border.all(color: BcColors.line),
+        color: BcAdminColors.charcoal,
+        border: Border.all(color: BcAdminColors.line),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +99,7 @@ class _LeadCard extends StatelessWidget {
               ),
               DropdownButton<String>(
                 value: _leadStatuses.contains(lead.status) ? lead.status : 'new',
-                dropdownColor: BcColors.charcoal,
+                dropdownColor: BcAdminColors.charcoal,
                 items: [
                   for (final status in _leadStatuses)
                     DropdownMenuItem(value: status, child: Text(status)),

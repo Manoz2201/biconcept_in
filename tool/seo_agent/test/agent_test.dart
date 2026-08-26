@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:agent_runtime/agent_runtime.dart';
 import 'package:seo_agent/agent.dart';
 import 'package:seo_agent/apply.dart';
 import 'package:seo_agent/gemini.dart';
@@ -31,9 +32,11 @@ void main() {
     final pagesFile = File('${repo.path}/assets/seo/pages.json');
     final sitemapFile = File('${repo.path}/web/sitemap.xml');
     final indexFile = File('${repo.path}/web/index.html');
+    final copyFile = File('${repo.path}/lib/content/copy.dart');
     final originalPages = pagesFile.readAsStringSync();
     final originalSitemap = sitemapFile.readAsStringSync();
     final originalIndex = indexFile.readAsStringSync();
+    final originalCopy = copyFile.readAsStringSync();
     final runs = Directory('${repo.path}/assets/seo/runs');
     final beforeLogs = runs.existsSync()
         ? runs.listSync().whereType<File>().map((f) => f.path).toSet()
@@ -43,6 +46,7 @@ void main() {
       pagesFile.writeAsStringSync(originalPages);
       sitemapFile.writeAsStringSync(originalSitemap);
       indexFile.writeAsStringSync(originalIndex);
+      copyFile.writeAsStringSync(originalCopy);
       if (runs.existsSync()) {
         for (final file in runs.listSync().whereType<File>()) {
           if (!beforeLogs.contains(file.path) && file.path.endsWith('.json')) {
@@ -72,11 +76,24 @@ void main() {
     final index = indexFile.readAsStringSync();
     expect(index, contains(home.title.replaceAll('&', '&amp;')));
     expect(index, contains('<meta name="description" content="${home.description}"'));
+    expect(copyFile.readAsStringSync(), contains(home.title));
 
     final newLogs = runs
         .listSync()
         .whereType<File>()
         .where((file) => file.path.endsWith('.json') && !beforeLogs.contains(file.path));
     expect(newLogs, isNotEmpty);
+  });
+
+  test('allowlist rejects auth and config files', () {
+    expect(isSeoAllowlisted('assets/seo/pages.json'), isTrue);
+    expect(isSeoAllowlisted('lib/content/copy.dart'), isTrue);
+    expect(isSeoAllowlisted('lib/data/appwrite_config.dart'), isFalse);
+    expect(isSeoAllowlisted('lib/features/admin/admin_login_page.dart'), isFalse);
+    final files = RepoFiles(repo);
+    expect(
+      () => files.assertAllowed(File('${repo.path}/lib/data/appwrite_config.dart')),
+      throwsStateError,
+    );
   });
 }

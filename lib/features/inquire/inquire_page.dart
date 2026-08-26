@@ -20,11 +20,15 @@ class InquirePage extends StatefulWidget {
     this.listingId,
     this.city,
     this.sector,
+    this.practiceSlug,
+    this.offer,
   });
 
   final String? listingId;
   final String? city;
   final String? sector;
+  final String? practiceSlug;
+  final String? offer;
 
   @override
   State<InquirePage> createState() => _InquirePageState();
@@ -78,6 +82,12 @@ class _InquirePageState extends State<InquirePage> {
     if ((widget.listingId ?? '').isNotEmpty) {
       _practice = PracticeKind.realEstate;
       _projectType = 'Land / plot';
+      _step = 1;
+    }
+    final fromSlug = Practices.bySlug(widget.practiceSlug ?? '');
+    if (fromSlug != null) {
+      _practice = fromSlug.kind;
+      if ((widget.listingId ?? '').isEmpty) _step = 1;
     }
   }
 
@@ -118,6 +128,7 @@ class _InquirePageState extends State<InquirePage> {
           email: _email.text.trim(),
           message: _message.text.trim(),
           listingId: widget.listingId ?? '',
+          offer: widget.offer ?? '',
         ),
       );
       if (!mounted) return;
@@ -173,7 +184,14 @@ class _InquirePageState extends State<InquirePage> {
             const SizedBox(height: 16),
             Text(
               'This brief is tied to a researched NCR listing. We will read it against that project.',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: BcColors.goldSoft),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: BcColors.brass),
+            ),
+          ],
+          if ((widget.offer ?? '').isNotEmpty) ...[
+            const SizedBox(height: 12),
+            Text(
+              'Offer: ${widget.offer}',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: BcColors.brass),
             ),
           ],
           const SizedBox(height: 36),
@@ -225,14 +243,17 @@ class _InquirePageState extends State<InquirePage> {
         const SizedBox(height: 20),
         Text('TYPE', style: Theme.of(context).textTheme.labelSmall),
         const SizedBox(height: 10),
-        DropdownButtonFormField<String>(
-          initialValue: _projectType,
-          dropdownColor: BcColors.charcoal,
-          items: [
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
             for (final type in _types)
-              DropdownMenuItem(value: type, child: Text(type)),
+              _ChipChoice(
+                label: type,
+                selected: _projectType == type,
+                onTap: () => setState(() => _projectType = type),
+              ),
           ],
-          onChanged: (value) => setState(() => _projectType = value ?? _projectType),
         ),
         const SizedBox(height: 20),
         TextFormField(
@@ -244,14 +265,17 @@ class _InquirePageState extends State<InquirePage> {
         const SizedBox(height: 20),
         Text('BUDGET BAND', style: Theme.of(context).textTheme.labelSmall),
         const SizedBox(height: 10),
-        DropdownButtonFormField<String>(
-          initialValue: _budget,
-          dropdownColor: BcColors.charcoal,
-          items: [
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
             for (final band in _budgets)
-              DropdownMenuItem(value: band, child: Text(band)),
+              _ChipChoice(
+                label: band,
+                selected: _budget == band,
+                onTap: () => setState(() => _budget = band),
+              ),
           ],
-          onChanged: (value) => setState(() => _budget = value ?? _budget),
         ),
         const SizedBox(height: 28),
         Wrap(
@@ -354,7 +378,7 @@ class _StepDots extends StatelessWidget {
               child: Container(
                 height: 1,
                 margin: const EdgeInsets.symmetric(horizontal: 8),
-                color: i <= step ? BcColors.gold : BcColors.line,
+                color: i <= step ? BcColors.brass : BcColors.line,
               ),
             ),
           Column(
@@ -364,15 +388,15 @@ class _StepDots extends StatelessWidget {
                 height: 10,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: i <= step ? BcColors.gold : Colors.transparent,
-                  border: Border.all(color: BcColors.gold),
+                  color: i <= step ? BcColors.brass : Colors.transparent,
+                  border: Border.all(color: BcColors.brass),
                 ),
               ),
               const SizedBox(height: 8),
               Text(
                 labels[i].toUpperCase(),
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: i <= step ? BcColors.gold : BcColors.muted,
+                      color: i <= step ? BcColors.brass : BcColors.muted,
                       fontSize: 9,
                     ),
               ),
@@ -408,8 +432,9 @@ class _SelectTile extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: selected ? BcColors.gold.withValues(alpha: 0.08) : BcColors.charcoal,
-            border: Border.all(color: selected ? BcColors.gold : BcColors.line),
+            color: selected ? BcColors.brass.withValues(alpha: 0.12) : BcColors.cream,
+            border: Border.all(color: selected ? BcColors.brass : BcColors.line),
+            borderRadius: BorderRadius.circular(BcColors.radius),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -448,6 +473,45 @@ class _Success extends StatelessWidget {
             onPressed: () => launchUrl(Uri.parse('mailto:${Brand.email}')),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ChipChoice extends StatelessWidget {
+  const _ChipChoice({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          decoration: BoxDecoration(
+            color: selected ? BcColors.brass : BcColors.cream,
+            border: Border.all(color: selected ? BcColors.brass : BcColors.line),
+            borderRadius: BorderRadius.circular(BcColors.radius),
+          ),
+          child: Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: selected ? BcColors.espresso : BcColors.muted,
+                  letterSpacing: 0.8,
+                  fontSize: 11,
+                ),
+          ),
+        ),
       ),
     );
   }

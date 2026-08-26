@@ -14,6 +14,21 @@ void main() {
     expect(parsed.first.city, 'noida');
     expect(parsed.first.sector, '146');
     expect(parsed.first.rowId.length, 32);
-    expect(parsed.first.toData()['published'], isFalse);
+    expect(parsed.first.toData()['published'], isTrue);
+  });
+
+  test('existing drafts are published; live rows are skipped', () {
+    expect(
+      listingWriteAction(exists: false, published: false),
+      ListingWriteAction.create,
+    );
+    expect(
+      listingWriteAction(exists: true, published: false),
+      ListingWriteAction.publish,
+    );
+    expect(
+      listingWriteAction(exists: true, published: true),
+      ListingWriteAction.skip,
+    );
   });
 }

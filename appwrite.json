@@ -1,0 +1,25 @@
+{
+  "projectId": "6a8de2d2003a8c9f54fe",
+  "projectName": "Biconcept_app",
+  "endpoint": "https://sgp.cloud.appwrite.io/v1",
+  "functions": [
+    {
+      "$id": "studio-concierge",
+      "name": "studio-concierge",
+      "runtime": "dart-3.5",
+      "execute": ["users"],
+      "enabled": true,
+      "logging": true,
+      "entrypoint": "lib/main.dart",
+      "commands": "dart pub get",
+      "path": "functions/studio-concierge",
+      "timeout": 60,
+      "scopes": [
+        "tables.read",
+        "tables.write",
+        "rows.read",
+        "rows.write"
+      ]
+    }
+  ]
+}

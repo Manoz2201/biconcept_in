@@ -16,10 +16,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Dart
-        uses: dart-lang/setup-dart@v1
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          sdk: stable
+          channel: stable
 
       - name: Install agent deps
         working-directory: tool/seo_agent
@@ -31,9 +31,14 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
           SITE_URL: ${{ secrets.SITE_URL }}
+          APPWRITE_API_KEY: ${{ secrets.APPWRITE_API_KEY }}
         run: dart run bin/seo_agent.dart --root "${{ github.workspace }}"
 
+      - name: Gate on flutter test
+        run: flutter test
+
       - name: Open pull request if copy changed
+        id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
           branch: seo/daily
@@ -41,12 +46,18 @@ jobs:
           title: "seo: daily copy proposals"
           commit-message: "seo: apply daily agent proposals"
           body: |
-            Daily 12:00 IST SEO agent run.
+            Daily SEO/copy agent run.
 
-            Review title, description, H1, and FAQ changes before merge.
-            The agent does not auto-deploy.
+            Allowlisted files only (`assets/seo/**`, sitemap, index, `lib/content/copy.dart`).
+            `flutter test` already passed on this tree; auto-merge follows.
           add-paths: |
-            assets/seo/pages.json
-            assets/seo/runs/**
+            assets/seo/**
             web/sitemap.xml
             web/index.html
+            lib/content/copy.dart
+
+      - name: Auto-merge after tests
+        if: steps.cpr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --squash

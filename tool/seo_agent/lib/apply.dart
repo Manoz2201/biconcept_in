@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:agent_runtime/agent_runtime.dart';
 import 'package:path/path.dart' as p;
 import 'package:seo_agent/models.dart';
 
@@ -13,7 +14,15 @@ class RepoFiles {
   File get keywords => File(p.join(root.path, 'assets', 'seo', 'keywords.json'));
   File get sitemap => File(p.join(root.path, 'web', 'sitemap.xml'));
   File get indexHtml => File(p.join(root.path, 'web', 'index.html'));
+  File get copyDart => File(p.join(root.path, 'lib', 'content', 'copy.dart'));
   Directory get runs => Directory(p.join(root.path, 'assets', 'seo', 'runs'));
+
+  void assertAllowed(File file) {
+    final rel = p.relative(file.path, from: root.path).replaceAll('\\', '/');
+    if (!isSeoAllowlisted(rel)) {
+      throw StateError('SEO agent blocked write to $rel');
+    }
+  }
 }
 
 List<PageCopy> readPages(File file) {
@@ -33,7 +42,8 @@ List<String> readKeywords(File file) {
   ];
 }
 
-void writePages(File file, List<PageCopy> pages) {
+void writePages(File file, List<PageCopy> pages, {RepoFiles? files}) {
+  files?.assertAllowed(file);
   const encoder = JsonEncoder.withIndent('  ');
   file.writeAsStringSync('${encoder.convert({'pages': [for (final page in pages) page.toJson()]})}\n');
 }
@@ -80,12 +90,15 @@ List<ChangeRecord> applyProposals({
   return changes;
 }
 
-void bumpSitemap(File sitemap, Iterable<String> paths, DateTime now) {
+void bumpSitemap(File sitemap, Iterable<String> paths, DateTime now, {RepoFiles? files}) {
+  files?.assertAllowed(sitemap);
   if (!sitemap.existsSync()) return;
   var xml = sitemap.readAsStringSync();
   final day = now.toUtc().toIso8601String().split('T').first;
   for (final path in paths) {
-    final loc = path == '/' ? 'https://biconcept.in/' : 'https://biconcept.in$path';
+    final loc = path == '/'
+        ? 'https://manoz2201.github.io/biconcept_in/'
+        : 'https://manoz2201.github.io/biconcept_in$path';
     final locEsc = RegExp.escape(loc);
     final block = RegExp(
       '<url>\\s*<loc>$locEsc</loc>[\\s\\S]*?</url>',
@@ -103,7 +116,8 @@ void bumpSitemap(File sitemap, Iterable<String> paths, DateTime now) {
   sitemap.writeAsStringSync(xml.endsWith('\n') ? xml : '$xml\n');
 }
 
-void syncHomeIndexHtml(File indexHtml, PageCopy home) {
+void syncHomeIndexHtml(File indexHtml, PageCopy home, {RepoFiles? files}) {
+  files?.assertAllowed(indexHtml);
   if (!indexHtml.existsSync()) return;
   var html = indexHtml.readAsStringSync();
   html = html.replaceFirst(
@@ -137,12 +151,14 @@ void writeRunLog({
   required List<ChangeRecord> changes,
   required bool skipped,
   String? note,
+  RepoFiles? files,
 }) {
   if (!runs.existsSync()) {
     runs.createSync(recursive: true);
   }
   final stamp = now.toUtc().toIso8601String().replaceAll(':', '-');
   final file = File('${runs.path}${Platform.pathSeparator}$stamp.json');
+  files?.assertAllowed(file);
   const encoder = JsonEncoder.withIndent('  ');
   file.writeAsStringSync(
     '${encoder.convert({
@@ -154,3 +170,20 @@ void writeRunLog({
     })}\n',
   );
 }
+
+void syncCopyMeta(File copyDart, PageCopy home, {RepoFiles? files}) {
+  files?.assertAllowed(copyDart);
+  if (!copyDart.existsSync()) return;
+  var src = copyDart.readAsStringSync();
+  src = _replaceDartConst(src, 'metaTitle', home.title);
+  src = _replaceDartConst(src, 'metaDescription', home.description);
+  copyDart.writeAsStringSync(src);
+}
+
+String _replaceDartConst(String src, String name, String value) {
+  final escaped = value.replaceAll(r'\', r'\\').replaceAll("'", r"\'");
+  final pattern = RegExp("static const $name = '[^']*';");
+  if (!pattern.hasMatch(src)) return src;
+  return src.replaceFirst(pattern, "static const $name = '$escaped';");
+}
+

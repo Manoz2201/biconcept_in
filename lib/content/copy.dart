@@ -1,6 +1,10 @@
 abstract final class SiteCopy {
+  static const metaTitle = 'BiConcept — Architecture, Interiors & Real Estate';
+  static const metaDescription =
+      'BiConcept conceives architecture, interior design, and real estate as one idea. A conceptual studio for homes, developments, and land across India.';
+
   static const heroKicker = 'Architecture · Interiors · Real estate';
-  static const heroCtaPrimary = 'Start a concept';
+  static const heroCtaPrimary = 'Book a consultation';
   static const heroCtaSecondary = 'Explore work';
 
   static const practicesKicker = 'Three practices';
@@ -18,11 +22,11 @@ abstract final class SiteCopy {
   static const philosophyBody =
       'We do not decorate a weak plan, and we do not sell land we would not build on. The work is the concept, held through drawing, material, and close.';
 
-  static const ctaKicker = 'Commission';
-  static const ctaTitle = 'Tell us the brief.';
+  static const ctaKicker = 'Consultation';
+  static const ctaTitle = 'Shall we start with a conversation?';
   static const ctaBody =
-      'A house, a room, a plot — we will answer with a first idea, not a brochure.';
-  static const ctaButton = 'Start a concept';
+      'A house, a room, a plot — tell us the brief and we will reply with a first idea, not a brochure.';
+  static const ctaButton = 'Book a consultation';
 
   static const studioLede =
       'BiConcept is a conceptual practice. We design buildings, compose interiors, and advise on land — always as one idea, never as three disconnected services.';

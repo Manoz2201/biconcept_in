@@ -43,7 +43,7 @@ class _AdminServicesPageState extends State<AdminServicesPage> {
         future: _future,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator(color: BcColors.gold));
+            return const Center(child: CircularProgressIndicator(color: BcAdminColors.gold));
           }
           if (snapshot.hasError) {
             return AdminError('Could not load services.', onRetry: _reload);
@@ -59,8 +59,8 @@ class _AdminServicesPageState extends State<AdminServicesPage> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: BcColors.charcoal,
-                    border: Border.all(color: BcColors.line),
+                    color: BcAdminColors.charcoal,
+                    border: Border.all(color: BcAdminColors.line),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +138,7 @@ class _ServiceEditorState extends State<_ServiceEditor> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: BcColors.panel,
+      backgroundColor: BcAdminColors.panel,
       title: Text(widget.row == null ? 'Add service' : 'Edit service'),
       content: SizedBox(
         width: 520,
@@ -158,7 +158,7 @@ class _ServiceEditorState extends State<_ServiceEditor> {
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Published'),
                 value: _published,
-                activeThumbColor: BcColors.gold,
+                activeThumbColor: BcAdminColors.gold,
                 onChanged: (value) => setState(() => _published = value),
               ),
             ],

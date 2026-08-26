@@ -18,7 +18,7 @@ class SiteFooter extends StatelessWidget {
     final year = Brand.copyrightYear;
 
     return ColoredBox(
-      color: BcColors.charcoal,
+      color: BcColors.stone,
       child: PageInset(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: compact ? 48 : 72),
@@ -39,7 +39,7 @@ class SiteFooter extends StatelessWidget {
                       ('Work', '/work'),
                       ('Listings', '/listings'),
                       ('Studio', '/studio'),
-                      ('Start a concept', '/inquire'),
+                      ('Book a consultation', '/inquire'),
                     ]),
                     const SizedBox(height: 28),
                     const _ContactColumn(),
@@ -60,7 +60,7 @@ class SiteFooter extends StatelessWidget {
                         ('Work', '/work'),
                         ('Listings', '/listings'),
                         ('Studio', '/studio'),
-                        ('Start a concept', '/inquire'),
+                        ('Book a consultation', '/inquire'),
                       ]),
                     ),
                     const Expanded(child: _ContactColumn()),
@@ -93,7 +93,7 @@ class _BrandBlock extends StatelessWidget {
           Brand.name,
           style: GoogleFonts.cormorantGaramond(
             fontSize: 32,
-            color: BcColors.ivory,
+            color: BcColors.espresso,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -181,7 +181,7 @@ class _FooterLinkState extends State<_FooterLink> {
         child: Text(
           widget.label,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: _hover ? BcColors.gold : BcColors.muted,
+                color: _hover ? BcColors.brass : BcColors.muted,
               ),
         ),
       ),

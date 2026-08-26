@@ -1,0 +1,49 @@
+name: Agent tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  agents:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: agent_runtime
+        working-directory: tool/agent_runtime
+        run: dart pub get && dart test
+
+      - name: market_agent
+        working-directory: tool/market_agent
+        run: dart pub get && dart test
+
+      - name: offers_agent
+        working-directory: tool/offers_agent
+        run: dart pub get && dart test
+
+      - name: seo_agent
+        working-directory: tool/seo_agent
+        run: dart pub get && dart test
+
+      - name: agent_dispatch
+        working-directory: tool/agent_dispatch
+        run: dart pub get && dart test
+
+      - name: concierge
+        working-directory: functions/studio-concierge
+        run: dart pub get && dart test
+
+      - name: dispatcher dry-run
+        working-directory: tool/agent_dispatch
+        run: dart run bin/dispatch.dart --dry-run
+
+      - name: Flutter widget tests
+        run: flutter test

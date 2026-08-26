@@ -30,15 +30,15 @@ class _GoldButtonState extends State<GoldButton> {
 
     final bg = switch (widget.variant) {
       GoldButtonVariant.filled =>
-        _hover ? BcColors.goldSoft : BcColors.gold,
+        _hover ? BcColors.brassHover : BcColors.brass,
       GoldButtonVariant.outline =>
-        _hover ? BcColors.gold.withValues(alpha: 0.12) : Colors.transparent,
+        _hover ? BcColors.brass.withValues(alpha: 0.1) : Colors.transparent,
       GoldButtonVariant.ghost => Colors.transparent,
     };
-    final fg = filled ? BcColors.ink : BcColors.gold;
+    final fg = filled ? BcColors.espresso : BcColors.brass;
     final border = ghost
         ? Border.all(color: Colors.transparent)
-        : Border.all(color: BcColors.gold);
+        : Border.all(color: BcColors.brass);
 
     return MouseRegion(
       onEnter: (_) => setState(() => _hover = true),
@@ -47,12 +47,15 @@ class _GoldButtonState extends State<GoldButton> {
       child: GestureDetector(
         onTap: widget.onPressed,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 280),
+          duration: const Duration(milliseconds: 220),
           curve: Curves.easeOutCubic,
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+          transform: Matrix4.translationValues(0, _hover && enabled ? -2 : 0, 0),
+          transformAlignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
           decoration: BoxDecoration(
             color: enabled ? bg : BcColors.line,
             border: border,
+            borderRadius: BorderRadius.circular(BcColors.radius),
           ),
           child: Text(
             widget.label.toUpperCase(),

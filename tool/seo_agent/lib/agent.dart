@@ -119,8 +119,8 @@ Future<AgentResult> runAgent(AgentConfig config) async {
     return AgentResult(skipped: false, changed: false, note: 'dry-run', changes: changes);
   }
 
-  writePages(files.pages, pages);
-  bumpSitemap(files.sitemap, changes.map((c) => c.path), DateTime.now());
+  writePages(files.pages, pages, files: files);
+  bumpSitemap(files.sitemap, changes.map((c) => c.path), DateTime.now(), files: files);
   PageCopy? home;
   for (final page in pages) {
     if (page.path == '/') {
@@ -129,7 +129,8 @@ Future<AgentResult> runAgent(AgentConfig config) async {
     }
   }
   if (home != null) {
-    syncHomeIndexHtml(files.indexHtml, home);
+    syncHomeIndexHtml(files.indexHtml, home, files: files);
+    syncCopyMeta(files.copyDart, home, files: files);
   }
   writeRunLog(
     runs: files.runs,
@@ -138,6 +139,7 @@ Future<AgentResult> runAgent(AgentConfig config) async {
     changes: changes,
     skipped: false,
     note: 'applied ${changes.length} page(s)',
+    files: files,
   );
   stdout.writeln('Applied ${changes.length} page(s).');
   return AgentResult(skipped: false, changed: true, changes: changes);

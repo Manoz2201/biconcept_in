@@ -6,6 +6,8 @@ environment:
   sdk: ^3.13.0
 
 dependencies:
+  agent_runtime:
+    path: ../agent_runtime
   crypto: ^3.0.6
   dart_appwrite: ^19.3.0
   http: ^1.6.0

@@ -114,7 +114,7 @@ class ResearchListing {
         'summary': summary,
         'sourceUrl': sourceUrl,
         'sourceName': sourceName,
-        'published': false,
+        'published': true,
         'researchedAt': DateTime.now().toUtc().toIso8601String(),
       };
 
@@ -255,6 +255,14 @@ Return JSON only:
   }
 }
 
+enum ListingWriteAction { create, publish, skip }
+
+ListingWriteAction listingWriteAction({required bool exists, required bool published}) {
+  if (!exists) return ListingWriteAction.create;
+  if (!published) return ListingWriteAction.publish;
+  return ListingWriteAction.skip;
+}
+
 class AppwriteSync {
   AppwriteSync({
     required String endpoint,
@@ -271,19 +279,35 @@ class AppwriteSync {
   final String databaseId;
   final TablesDB _tables;
 
-  static final _usersRead = [
-    Permission.read(Role.users()),
+  static final _publishedPerms = [
+    Permission.read(Role.any()),
     Permission.update(Role.users()),
     Permission.delete(Role.users()),
   ];
 
   Future<int> upsertNewListings(List<ResearchListing> listings, {int cap = 15}) async {
-    final existing = await _existingKeys();
+    final existing = await _existing();
     var written = 0;
     for (final listing in listings) {
       if (written >= cap) break;
-      if (existing.contains(listing.duplicateKey)) {
+      final found = existing[listing.duplicateKey];
+      final action = listingWriteAction(
+        exists: found != null,
+        published: found?.published ?? false,
+      );
+      if (action == ListingWriteAction.skip) {
         stdout.writeln('Skip duplicate ${listing.title} (${listing.city})');
+        continue;
+      }
+      if (action == ListingWriteAction.publish) {
+        try {
+          await _publish(found!.id);
+          existing[listing.duplicateKey] = (id: found.id, published: true);
+          written += 1;
+          stdout.writeln('Published existing ${listing.title}');
+        } on AppwriteException catch (error) {
+          stderr.writeln('Appwrite PUBLISH ${found?.id}: ${error.message}');
+        }
         continue;
       }
       try {
@@ -292,7 +316,10 @@ class AppwriteSync {
           tableId: 'listings',
           rowId: listing.rowId,
         );
-        stdout.writeln('Skip existing row ${listing.title}');
+        await _publish(listing.rowId);
+        existing[listing.duplicateKey] = (id: listing.rowId, published: true);
+        written += 1;
+        stdout.writeln('Published existing row ${listing.title}');
         continue;
       } on AppwriteException catch (error) {
         if (error.code != 404) {
@@ -306,20 +333,53 @@ class AppwriteSync {
           tableId: 'listings',
           rowId: listing.rowId,
           data: listing.toData(),
-          permissions: _usersRead,
+          permissions: _publishedPerms,
         );
-        existing.add(listing.duplicateKey);
+        existing[listing.duplicateKey] = (id: listing.rowId, published: true);
         written += 1;
-        stdout.writeln('Created unpublished ${listing.title}');
+        stdout.writeln('Created published ${listing.title}');
       } on AppwriteException catch (error) {
         stderr.writeln('Appwrite POST ${listing.rowId}: ${error.message}');
       }
     }
+    if (written < cap) {
+      written += await publishUnpublished(cap: cap - written);
+    }
     return written;
   }
 
-  Future<Set<String>> _existingKeys() async {
-    final keys = <String>{};
+  Future<int> publishUnpublished({int cap = 15}) async {
+    final result = await _tables.listRows(
+      databaseId: databaseId,
+      tableId: 'listings',
+      queries: [Query.equal('published', false), Query.limit(100)],
+    );
+    var published = 0;
+    for (final row in result.rows) {
+      if (published >= cap) break;
+      try {
+        await _publish(row.$id);
+        published += 1;
+        stdout.writeln('Published draft ${row.data['title'] ?? row.$id}');
+      } on AppwriteException catch (error) {
+        stderr.writeln('Appwrite PUBLISH ${row.$id}: ${error.message}');
+      }
+    }
+    return published;
+  }
+
+  Future<void> _publish(String id) {
+    return _tables.updateRow(
+      databaseId: databaseId,
+      tableId: 'listings',
+      rowId: id,
+      data: {'published': true},
+      permissions: _publishedPerms,
+    );
+  }
+
+  Future<Map<String, ({String id, bool published})>> _existing() async {
+    final keys = <String, ({String id, bool published})>{};
     final result = await _tables.listRows(
       databaseId: databaseId,
       tableId: 'listings',
@@ -329,9 +389,11 @@ class AppwriteSync {
       final data = Map<String, dynamic>.from(row.data);
       final title = (data['title'] ?? '').toString().trim().toLowerCase();
       final city = (data['city'] ?? '').toString().trim().toLowerCase();
-      if (title.isNotEmpty && city.isNotEmpty) {
-        keys.add('$title|$city');
-      }
+      if (title.isEmpty || city.isEmpty) continue;
+      keys['$title|$city'] = (
+        id: row.$id,
+        published: data['published'] == true,
+      );
     }
     return keys;
   }

@@ -43,7 +43,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
         future: _future,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator(color: BcColors.gold));
+            return const Center(child: CircularProgressIndicator(color: BcAdminColors.gold));
           }
           if (snapshot.hasError) {
             return AdminError(
@@ -79,6 +79,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 value: '${counts.services}',
                 hint: 'Practice copy',
                 onTap: () => context.go('/admin/services'),
+              ),
+              _Stat(
+                label: 'Agents',
+                value: '24/7',
+                hint: 'Jobs, cron, concierge',
+                onTap: () => context.go('/admin/agents'),
               ),
             ],
           );
@@ -127,8 +133,8 @@ class _Stat extends StatelessWidget {
         width: 240,
         padding: const EdgeInsets.all(22),
         decoration: BoxDecoration(
-          color: BcColors.charcoal,
-          border: Border.all(color: BcColors.line),
+          color: BcAdminColors.charcoal,
+          border: Border.all(color: BcAdminColors.line),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

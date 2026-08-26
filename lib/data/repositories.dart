@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
 import 'package:biconcept_in/content/projects.dart';
@@ -178,7 +180,9 @@ class LeadsRepository {
     required String budgetBand,
     required String message,
     required String listingId,
+    String offer = '',
   }) async {
+    final brief = offer.trim().isEmpty ? message : 'Offer: $offer\n$message';
     await _tables.createRow(
       databaseId: AppwriteConfig.databaseId,
       tableId: AppwriteConfig.tableLeads,
@@ -192,7 +196,7 @@ class LeadsRepository {
         'practice': practice,
         'projectType': projectType,
         'budgetBand': budgetBand,
-        'message': message,
+        'message': brief,
         'source': 'website',
         'status': 'new',
         'listingId': listingId,
@@ -364,5 +368,189 @@ class MediaRepository {
       permissions: [Permission.read(Role.any())],
     );
     return file.$id;
+  }
+}
+
+class OffersRepository {
+  OffersRepository({TablesDB? tables}) : _tables = tables ?? AppwriteServices.instance.tables;
+
+  final TablesDB _tables;
+
+  Future<List<StudioOffer>> listPublished({String? practice}) async {
+    if (_inWidgetTest) return const [];
+    try {
+      final result = await _tables.listRows(
+        databaseId: AppwriteConfig.databaseId,
+        tableId: AppwriteConfig.tableOffers,
+        queries: [
+          Query.equal('published', true),
+          Query.limit(12),
+        ],
+      );
+      final rows = [for (final row in result.rows) StudioOffer.fromRow(row)];
+      if (practice == null || practice.isEmpty) return rows;
+      return [
+        for (final offer in rows)
+          if (offer.practice.isEmpty || offer.practice == practice) offer,
+      ];
+    } on AppwriteException {
+      return const [];
+    }
+  }
+
+  Future<List<StudioOffer>> listAll() async {
+    final result = await _tables.listRows(
+      databaseId: AppwriteConfig.databaseId,
+      tableId: AppwriteConfig.tableOffers,
+      queries: [Query.limit(50)],
+    );
+    return [for (final row in result.rows) StudioOffer.fromRow(row)];
+  }
+
+  Future<StudioOffer> upsert(StudioOffer row) async {
+    if (row.id.isEmpty) {
+      final created = await _tables.createRow(
+        databaseId: AppwriteConfig.databaseId,
+        tableId: AppwriteConfig.tableOffers,
+        rowId: ID.unique(),
+        data: row.toData(),
+        permissions: row.published ? _publicRowPermissions() : _usersRowPermissions(),
+      );
+      return StudioOffer.fromRow(created);
+    }
+    final updated = await _tables.updateRow(
+      databaseId: AppwriteConfig.databaseId,
+      tableId: AppwriteConfig.tableOffers,
+      rowId: row.id,
+      data: row.toData(),
+      permissions: row.published ? _publicRowPermissions() : _usersRowPermissions(),
+    );
+    return StudioOffer.fromRow(updated);
+  }
+
+  Future<void> delete(String id) {
+    return _tables.deleteRow(
+      databaseId: AppwriteConfig.databaseId,
+      tableId: AppwriteConfig.tableOffers,
+      rowId: id,
+    );
+  }
+}
+
+class AgentJobsRepository {
+  AgentJobsRepository({TablesDB? tables, Realtime? realtime})
+      : _tables = tables ?? AppwriteServices.instance.tables,
+        _realtime = realtime ?? AppwriteServices.instance.realtime;
+
+  final TablesDB _tables;
+  final Realtime _realtime;
+
+  static List<AgentJob>? debugJobs;
+
+  Future<List<AgentJob>> listRecent({int limit = 40}) async {
+    if (debugJobs != null) return debugJobs!;
+    if (_inWidgetTest) return const [];
+    try {
+      final result = await _tables.listRows(
+        databaseId: AppwriteConfig.databaseId,
+        tableId: AppwriteConfig.tableAgentJobs,
+        queries: [Query.orderDesc('\$createdAt'), Query.limit(limit)],
+      );
+      return [for (final row in result.rows) AgentJob.fromRow(row)];
+    } on AppwriteException {
+      return const [];
+    }
+  }
+
+  Future<AgentJob> enqueue({
+    required String agentId,
+    required String title,
+    String payload = '',
+  }) async {
+    if (debugJobs != null) {
+      final job = AgentJob(
+        id: 'debug-${DateTime.now().millisecondsSinceEpoch}',
+        agentId: agentId,
+        title: title,
+        status: 'queued',
+        progress: 0,
+        summary: 'Queued',
+        log: '',
+        payload: payload,
+        startedAt: '',
+        finishedAt: '',
+      );
+      debugJobs = [job, ...debugJobs!];
+      return job;
+    }
+    final row = await _tables.createRow(
+      databaseId: AppwriteConfig.databaseId,
+      tableId: AppwriteConfig.tableAgentJobs,
+      rowId: ID.unique(),
+      data: {
+        'agentId': agentId,
+        'title': title,
+        'status': 'queued',
+        'progress': 0,
+        'summary': 'Waiting for GitHub dispatcher (every 15 min on main)',
+        'log': '',
+        'payload': payload,
+        'startedAt': '',
+        'finishedAt': '',
+      },
+      permissions: _usersRowPermissions(),
+    );
+    return AgentJob.fromRow(row);
+  }
+
+  RealtimeSubscription? subscribe(void Function() onChange) {
+    if (_inWidgetTest || debugJobs != null) return null;
+    try {
+      final sub = _realtime.subscribe([
+        'databases.${AppwriteConfig.databaseId}.tables.${AppwriteConfig.tableAgentJobs}.rows',
+      ]);
+      sub.stream.listen((_) => onChange());
+      return sub;
+    } catch (_) {
+      return null;
+    }
+  }
+}
+
+class ConciergeRepository {
+  ConciergeRepository({Functions? functions})
+      : _functions = functions ?? AppwriteServices.instance.functions;
+
+  final Functions _functions;
+
+  static String? debugReply;
+
+  Future<String> ask(String message) async {
+    if (debugReply != null) return debugReply!;
+    if (_inWidgetTest) return 'Concierge is offline in tests.';
+    try {
+      final execution = await _functions.createExecution(
+        functionId: AppwriteConfig.functionConcierge,
+        body: jsonEncode({'message': message}),
+        xasync: false,
+      );
+      final body = execution.responseBody.trim();
+      if (body.isEmpty) {
+        return execution.responseStatusCode == 200
+            ? 'Done.'
+            : 'Concierge returned ${execution.responseStatusCode}.';
+      }
+      try {
+        final decoded = jsonDecode(body);
+        if (decoded is Map && decoded['reply'] != null) {
+          return decoded['reply'].toString();
+        }
+      } on FormatException {
+        // Plain-text Function response.
+      }
+      return body;
+    } on AppwriteException catch (error) {
+      throw StateError(error.message ?? 'Concierge is not deployed yet.');
+    }
   }
 }

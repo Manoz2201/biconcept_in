@@ -10,6 +10,6 @@ class Brand {
   static const phoneE164 = '+910000000000';
   static const instagram = 'https://instagram.com/biconcept';
   static const linkedin = 'https://www.linkedin.com/company/biconcept';
-  static const siteUrl = 'https://biconcept.in';
+  static const siteUrl = 'https://manoz2201.github.io/biconcept_in';
   static const copyrightYear = '2026';
 }

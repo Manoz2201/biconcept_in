@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:agent_runtime/agent_runtime.dart';
 import 'package:seo_agent/agent.dart';
 
 Future<void> main(List<String> args) async {
@@ -22,20 +23,37 @@ Future<void> main(List<String> args) async {
   }
 
   try {
-    final result = await runAgent(
-      AgentConfig(
-        root: findRepoRoot(root),
-        geminiApiKey: Platform.environment['GEMINI_API_KEY'],
-        serperApiKey: Platform.environment['SERPER_API_KEY'],
-        siteUrl: Platform.environment['SITE_URL'],
-        geminiModel: Platform.environment['GEMINI_MODEL'] ?? 'gemini-3.6-flash',
-        fixturePath: fixture,
-        dryRun: dryRun,
-      ),
+    await withJob(
+      agentId: 'seo',
+      title: dryRun ? 'SEO / copy (dry run)' : 'SEO / copy',
+      body: (writer, jobId) async {
+        if (writer != null && jobId != null) {
+          await writer.progress(jobId, 40, summary: 'Proposing copy…');
+        }
+        final result = await runAgent(
+          AgentConfig(
+            root: findRepoRoot(root),
+            geminiApiKey: Platform.environment['GEMINI_API_KEY'],
+            serperApiKey: Platform.environment['SERPER_API_KEY'],
+            siteUrl: Platform.environment['SITE_URL'],
+            geminiModel: Platform.environment['GEMINI_MODEL'] ?? 'gemini-3.6-flash',
+            fixturePath: fixture,
+            dryRun: dryRun,
+          ),
+        );
+        if (result.skipped && result.note != null) {
+          stdout.writeln(result.note);
+        }
+        if (jobId != null) {
+          await writer?.succeed(
+            jobId,
+            summary: result.skipped
+                ? (result.note ?? 'Skipped')
+                : 'Applied ${result.changes.length} page(s)',
+          );
+        }
+      },
     );
-    if (result.skipped && result.note != null) {
-      stdout.writeln(result.note);
-    }
   } catch (error) {
     stderr.writeln(error);
     exitCode = 1;

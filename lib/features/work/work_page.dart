@@ -128,13 +128,14 @@ class _FilterChip extends StatelessWidget {
           duration: const Duration(milliseconds: 220),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
-            color: selected ? BcColors.gold : Colors.transparent,
-            border: Border.all(color: selected ? BcColors.gold : BcColors.line),
+            color: selected ? BcColors.brass : Colors.transparent,
+            border: Border.all(color: selected ? BcColors.brass : BcColors.line),
+            borderRadius: BorderRadius.circular(BcColors.radius),
           ),
           child: Text(
             label.toUpperCase(),
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: selected ? BcColors.ink : BcColors.goldSoft,
+                  color: selected ? BcColors.espresso : BcColors.muted,
                   letterSpacing: 1.8,
                 ),
           ),
@@ -228,7 +229,8 @@ class _WorkCardState extends State<_WorkCard> {
           children: [
             AspectRatio(
               aspectRatio: widget.tall ? 3 / 4 : 4 / 3,
-              child: ClipRect(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(BcColors.radius),
                 child: AnimatedScale(
                   duration: const Duration(milliseconds: 700),
                   curve: Curves.easeOutCubic,

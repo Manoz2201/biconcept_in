@@ -46,7 +46,7 @@ class _AdminShowcasePageState extends State<AdminShowcasePage> {
         future: _future,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(child: CircularProgressIndicator(color: BcColors.gold));
+            return const Center(child: CircularProgressIndicator(color: BcAdminColors.gold));
           }
           if (snapshot.hasError) {
             return AdminError('Could not load showcase.', onRetry: _reload);
@@ -62,8 +62,8 @@ class _AdminShowcasePageState extends State<AdminShowcasePage> {
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: BcColors.charcoal,
-                    border: Border.all(color: BcColors.line),
+                    color: BcAdminColors.charcoal,
+                    border: Border.all(color: BcAdminColors.line),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,7 +187,7 @@ class _ShowcaseEditorState extends State<_ShowcaseEditor> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: BcColors.panel,
+      backgroundColor: BcAdminColors.panel,
       title: Text(widget.row == null ? 'Add showcase' : 'Edit showcase'),
       content: SizedBox(
         width: 520,
@@ -204,7 +204,7 @@ class _ShowcaseEditorState extends State<_ShowcaseEditor> {
               const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 initialValue: _kinds.contains(_kind) ? _kind : 'architecture',
-                dropdownColor: BcColors.charcoal,
+                dropdownColor: BcAdminColors.charcoal,
                 decoration: const InputDecoration(labelText: 'KIND'),
                 items: [
                   for (final item in _kinds) DropdownMenuItem(value: item, child: Text(item)),
@@ -234,20 +234,20 @@ class _ShowcaseEditorState extends State<_ShowcaseEditor> {
               ),
               if (_uploadError != null) ...[
                 const SizedBox(height: 8),
-                Text(_uploadError!, style: const TextStyle(color: BcColors.danger)),
+                Text(_uploadError!, style: const TextStyle(color: BcAdminColors.danger)),
               ],
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Published'),
                 value: _published,
-                activeThumbColor: BcColors.gold,
+                activeThumbColor: BcAdminColors.gold,
                 onChanged: (value) => setState(() => _published = value),
               ),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Featured'),
                 value: _featured,
-                activeThumbColor: BcColors.gold,
+                activeThumbColor: BcAdminColors.gold,
                 onChanged: (value) => setState(() => _featured = value),
               ),
             ],

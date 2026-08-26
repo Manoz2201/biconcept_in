@@ -55,7 +55,7 @@ class Kicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text.toUpperCase(),
-      style: Theme.of(context).textTheme.labelSmall?.copyWith(color: color ?? BcColors.gold),
+      style: Theme.of(context).textTheme.labelSmall?.copyWith(color: color ?? BcColors.brass),
     );
   }
 }

@@ -26,15 +26,7 @@ class StudioPage extends StatelessWidget {
                 url:
                     'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=80',
               ),
-              const DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color(0x660A0A0A), Color(0xE60A0A0A)],
-                  ),
-                ),
-              ),
+              const PhotoScrim(),
               PageInset(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 48),
@@ -42,13 +34,14 @@ class StudioPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Spacer(),
-                      const Kicker('Studio'),
+                      const Kicker('Studio', color: BcColors.brassHover),
                       const SizedBox(height: 16),
                       Text(
                         SiteSeo.studio.h1,
-                        style: compact
-                            ? Theme.of(context).textTheme.displaySmall
-                            : Theme.of(context).textTheme.displayMedium,
+                        style: (compact
+                                ? Theme.of(context).textTheme.displaySmall
+                                : Theme.of(context).textTheme.displayMedium)
+                            ?.copyWith(color: BcColors.photoInk),
                       ),
                     ],
                   ),
@@ -69,7 +62,7 @@ class StudioPage extends StatelessWidget {
                     child: Text(
                       SiteCopy.studioLede,
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                            color: BcColors.goldSoft,
+                            color: BcColors.espresso,
                           ),
                     ),
                   ),
@@ -149,7 +142,9 @@ class _ApproachCard extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(28),
         decoration: BoxDecoration(
+          color: BcColors.cream,
           border: Border.all(color: BcColors.line),
+          borderRadius: BorderRadius.circular(BcColors.radius),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

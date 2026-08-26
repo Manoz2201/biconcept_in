@@ -28,6 +28,15 @@ class _SiteScaffoldState extends State<SiteScaffold> {
     return false;
   }
 
+  bool get _overHero {
+    final path = GoRouterState.of(context).uri.path;
+    if (path == '/' || path == '/studio') return true;
+    if (path == '/architecture' || path == '/interiors' || path == '/real-estate') {
+      return true;
+    }
+    return RegExp(r'^/work/[^/]+$').hasMatch(path);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +50,7 @@ class _SiteScaffoldState extends State<SiteScaffold> {
           SiteHeader(
             scrolled: _scrolled,
             menuOpen: _menuOpen,
+            overHero: _overHero,
             onMenu: () => setState(() => _menuOpen = !_menuOpen),
           ),
         ],

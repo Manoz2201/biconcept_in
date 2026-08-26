@@ -20,7 +20,7 @@ class _BiConceptAppState extends State<BiConceptApp> {
     return MaterialApp.router(
       title: 'BiConcept',
       debugShowCheckedModeBanner: false,
-      theme: BcTheme.dark,
+      theme: BcTheme.gallery,
       routerConfig: _router,
     );
   }

@@ -50,8 +50,8 @@ class _FaqTile extends StatelessWidget {
       child: ExpansionTile(
         tilePadding: const EdgeInsets.symmetric(vertical: 8),
         childrenPadding: const EdgeInsets.only(bottom: 20),
-        iconColor: BcColors.gold,
-        collapsedIconColor: BcColors.goldSoft,
+        iconColor: BcColors.brass,
+        collapsedIconColor: BcColors.muted,
         title: Text(item.question, style: Theme.of(context).textTheme.headlineSmall),
         children: [
           Align(

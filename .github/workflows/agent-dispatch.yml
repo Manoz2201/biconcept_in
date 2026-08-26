@@ -1,0 +1,81 @@
+name: Agent dispatcher
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install dispatcher deps
+        run: |
+          dart pub get
+        working-directory: tool/agent_runtime
+
+      - name: Install dispatch package
+        working-directory: tool/agent_dispatch
+        run: dart pub get
+
+      - name: Install market agent
+        working-directory: tool/market_agent
+        run: dart pub get
+
+      - name: Install offers agent
+        working-directory: tool/offers_agent
+        run: dart pub get
+
+      - name: Install SEO agent
+        working-directory: tool/seo_agent
+        run: dart pub get
+
+      - name: Dispatch queued jobs
+        id: dispatch
+        working-directory: tool/agent_dispatch
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+          APPWRITE_API_KEY: ${{ secrets.APPWRITE_API_KEY }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+        run: dart run bin/dispatch.dart
+
+      - name: Test before SEO merge
+        if: steps.dispatch.outputs.seo_changed == 'true'
+        run: flutter test
+
+      - name: Open SEO pull request
+        if: steps.dispatch.outputs.seo_changed == 'true'
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: seo/dispatch
+          delete-branch: true
+          title: "seo: dispatched copy proposals"
+          commit-message: "seo: apply dispatched agent proposals"
+          body: |
+            SEO/copy agent run from the dispatcher (Run now).
+            Tests already passed on this tree. Auto-merge follows.
+          add-paths: |
+            assets/seo/**
+            web/sitemap.xml
+            web/index.html
+            lib/content/copy.dart
+
+      - name: Auto-merge SEO PR
+        if: steps.dispatch.outputs.seo_changed == 'true' && steps.cpr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --squash

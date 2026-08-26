@@ -95,6 +95,8 @@ GoRouter createRouter() {
                   listingId: query['listing'],
                   city: query['city'],
                   sector: query['sector'],
+                  practiceSlug: query['practice'],
+                  offer: query['offer'],
                 ),
               );
             },
@@ -124,6 +126,14 @@ GoRouter createRouter() {
       GoRoute(
         path: '/admin/services',
         pageBuilder: (context, state) => _fade(state, const AdminShell(section: 'services')),
+      ),
+      GoRoute(
+        path: '/admin/offers',
+        pageBuilder: (context, state) => _fade(state, const AdminShell(section: 'offers')),
+      ),
+      GoRoute(
+        path: '/admin/agents',
+        pageBuilder: (context, state) => _fade(state, const AdminShell(section: 'agents')),
       ),
     ],
   );

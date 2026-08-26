@@ -1,4 +1,5 @@
 import 'package:biconcept_in/content/projects.dart';
+import 'package:biconcept_in/content/services.dart';
 import 'package:biconcept_in/core/layout/max_width.dart';
 import 'package:biconcept_in/core/layout/site_scaffold.dart';
 import 'package:biconcept_in/core/theme/breakpoints.dart';
@@ -87,15 +88,7 @@ class _ProjectBody extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               KenBurnsImage(url: project.heroUrl),
-              const DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color(0x4D0A0A0A), Color(0xE60A0A0A)],
-                  ),
-                ),
-              ),
+              const PhotoScrim(),
               PageInset(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 48),
@@ -103,13 +96,17 @@ class _ProjectBody extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Spacer(),
-                      Kicker('${project.practiceLabel}  ·  ${project.location}  ·  ${project.year}'),
+                      Kicker(
+                        '${project.practiceLabel}  ·  ${project.location}  ·  ${project.year}',
+                        color: BcColors.brassHover,
+                      ),
                       const SizedBox(height: 16),
                       Text(
                         project.title,
-                        style: compact
-                            ? Theme.of(context).textTheme.displaySmall
-                            : Theme.of(context).textTheme.displayMedium,
+                        style: (compact
+                                ? Theme.of(context).textTheme.displaySmall
+                                : Theme.of(context).textTheme.displayMedium)
+                            ?.copyWith(color: BcColors.photoInk),
                       ),
                     ],
                   ),
@@ -130,7 +127,7 @@ class _ProjectBody extends StatelessWidget {
                     child: Text(
                       project.lede,
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                            color: BcColors.goldSoft,
+                            color: BcColors.espresso,
                           ),
                     ),
                   ),
@@ -146,10 +143,20 @@ class _ProjectBody extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 28),
-                  GoldButton(
-                    label: project.practiceLabel,
-                    variant: GoldButtonVariant.outline,
-                    onPressed: () => context.go(project.practiceRoute),
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: [
+                      GoldButton(
+                        label: project.kind.ctaLabel,
+                        onPressed: () => context.go(project.kind.inquirePath()),
+                      ),
+                      GoldButton(
+                        label: project.practiceLabel,
+                        variant: GoldButtonVariant.outline,
+                        onPressed: () => context.go(project.practiceRoute),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -187,7 +194,7 @@ class _ProjectBody extends StatelessWidget {
                   ),
           ),
         ),
-        const CtaBand(),
+        CtaBand(practice: project.kind),
       ],
     );
   }

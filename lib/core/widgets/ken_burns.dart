@@ -44,6 +44,34 @@ class _KenBurnsImageState extends State<KenBurnsImage>
   }
 }
 
+class PhotoScrim extends StatelessWidget {
+  const PhotoScrim({super.key, this.soft = false});
+
+  final bool soft;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: soft
+              ? [
+                  BcColors.espresso.withValues(alpha: 0.12),
+                  BcColors.espresso.withValues(alpha: 0.72),
+                ]
+              : [
+                  BcColors.espresso.withValues(alpha: 0.28),
+                  BcColors.espresso.withValues(alpha: 0.52),
+                  BcColors.espresso.withValues(alpha: 0.78),
+                ],
+        ),
+      ),
+    );
+  }
+}
+
 class NetworkCover extends StatelessWidget {
   const NetworkCover({super.key, required this.url});
 
@@ -60,13 +88,13 @@ class NetworkCover extends StatelessWidget {
       alignment: Alignment.center,
       loadingBuilder: (context, child, progress) {
         if (progress == null) return child;
-        return const ColoredBox(color: BcColors.charcoal);
+        return const ColoredBox(color: BcColors.stone);
       },
       errorBuilder: (context, error, stack) {
         return const ColoredBox(
-          color: BcColors.charcoal,
+          color: BcColors.stone,
           child: Center(
-            child: Icon(Icons.landscape_outlined, color: BcColors.line, size: 48),
+            child: Icon(Icons.landscape_outlined, color: BcColors.muted, size: 48),
           ),
         );
       },

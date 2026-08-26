@@ -1,0 +1,14 @@
+name: agent_dispatch
+description: Pick queued Appwrite agent_jobs and run the matching CLI.
+publish_to: "none"
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  agent_runtime:
+    path: ../agent_runtime
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.26.3

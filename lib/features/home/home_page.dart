@@ -8,6 +8,7 @@ import 'package:biconcept_in/core/theme/breakpoints.dart';
 import 'package:biconcept_in/core/theme/colors.dart';
 import 'package:biconcept_in/core/widgets/cta_band.dart';
 import 'package:biconcept_in/core/widgets/faq_section.dart';
+import 'package:biconcept_in/core/widgets/offer_strip.dart';
 import 'package:biconcept_in/core/widgets/gold_button.dart';
 import 'package:biconcept_in/core/widgets/ken_burns.dart';
 import 'package:biconcept_in/core/widgets/reveal.dart';
@@ -21,8 +22,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageFrame(
-      children: const [
+      children: [
         _Hero(),
+        OfferStrip(),
         _Practices(),
         _SelectedWork(),
         _Philosophy(),
@@ -54,19 +56,7 @@ class _Hero extends StatelessWidget {
             url:
                 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=2000&q=80',
           ),
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0x660A0A0A),
-                  Color(0x990A0A0A),
-                  Color(0xE60A0A0A),
-                ],
-              ),
-            ),
-          ),
+          const PhotoScrim(),
           PageInset(
             child: Padding(
               padding: EdgeInsets.only(
@@ -77,16 +67,19 @@ class _Hero extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Spacer(),
-                  const Kicker(SiteCopy.heroKicker),
+                  const Kicker(SiteCopy.heroKicker, color: BcColors.brassHover),
                   const SizedBox(height: 20),
-                  Text(SiteSeo.home.h1, style: display),
+                  Text(
+                    SiteSeo.home.h1,
+                    style: display?.copyWith(color: BcColors.photoInk),
+                  ),
                   const SizedBox(height: 20),
                   ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 560),
                     child: Text(
                       SiteCopy.philosophyBody,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: BcColors.goldSoft,
+                            color: BcColors.photoInk.withValues(alpha: 0.86),
                           ),
                     ),
                   ),
@@ -199,57 +192,79 @@ class _PracticeCardState extends State<_PracticeCard> {
 
   @override
   Widget build(BuildContext context) {
-    final height = widget.tall ? 460.0 : 400.0;
+    final height = widget.tall ? 520.0 : 460.0;
     return MouseRegion(
       onEnter: (_) => setState(() => _hover = true),
       onExit: (_) => setState(() => _hover = false),
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: () => context.go(widget.practice.route),
-        child: SizedBox(
-          height: height,
-          child: ClipRect(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                AnimatedScale(
-                  duration: const Duration(milliseconds: 700),
-                  curve: Curves.easeOutCubic,
-                  scale: _hover ? 1.06 : 1,
-                  child: NetworkCover(url: widget.practice.imageUrl),
-                ),
-                const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.transparent, Color(0xE60A0A0A)],
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 280),
+        curve: Curves.easeOutCubic,
+        transform: Matrix4.translationValues(0, _hover ? -6 : 0, 0),
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(BcColors.radius),
+          boxShadow: _hover
+              ? [
+                  BoxShadow(
+                    color: BcColors.espresso.withValues(alpha: 0.16),
+                    blurRadius: 24,
+                    offset: const Offset(0, 12),
+                  ),
+                ]
+              : const [],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(BcColors.radius),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              AnimatedScale(
+                duration: const Duration(milliseconds: 700),
+                curve: Curves.easeOutCubic,
+                scale: _hover ? 1.06 : 1,
+                child: NetworkCover(url: widget.practice.imageUrl),
+              ),
+              const PhotoScrim(soft: true),
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Kicker(widget.practice.kicker, color: BcColors.brassHover),
+                    const Spacer(),
+                    Text(
+                      widget.practice.label,
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            color: BcColors.photoInk,
+                          ),
                     ),
-                  ),
+                    const SizedBox(height: 8),
+                    Text(
+                      widget.practice.headline,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: BcColors.photoInk.withValues(alpha: 0.82),
+                          ),
+                    ),
+                    const SizedBox(height: 18),
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        GoldButton(
+                          label: 'View practice',
+                          variant: GoldButtonVariant.outline,
+                          onPressed: () => context.go(widget.practice.route),
+                        ),
+                        GoldButton(
+                          label: widget.practice.ctaLabel,
+                          onPressed: () => context.go(widget.practice.inquirePath),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Kicker(widget.practice.kicker),
-                      const Spacer(),
-                      Text(
-                        widget.practice.label,
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        widget.practice.headline,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: BcColors.goldSoft,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

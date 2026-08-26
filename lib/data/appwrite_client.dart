@@ -9,6 +9,8 @@ class AppwriteServices {
     account = Account(client);
     tables = TablesDB(client);
     storage = Storage(client);
+    realtime = Realtime(client);
+    functions = Functions(client);
   }
 
   static final AppwriteServices instance = AppwriteServices._();
@@ -17,4 +19,6 @@ class AppwriteServices {
   late final Account account;
   late final TablesDB tables;
   late final Storage storage;
+  late final Realtime realtime;
+  late final Functions functions;
 }

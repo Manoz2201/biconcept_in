@@ -35,7 +35,7 @@ void main() {
   testWidgets('home renders BiConcept wordmark and primary CTA', (tester) async {
     await _pumpApp(tester, const Size(1440, 900));
     expect(find.text('BiConcept'), findsWidgets);
-    expect(find.textContaining('START A CONCEPT'), findsWidgets);
+    expect(find.textContaining('BOOK A CONSULTATION'), findsWidgets);
   });
 
   testWidgets('FaqSection renders questions', (tester) async {
@@ -90,7 +90,7 @@ void main() {
     await _settle(tester);
     expect(find.text('A studio of one concept.'), findsWidgets);
 
-    await tester.tap(find.textContaining('START A CONCEPT').first);
+    await tester.tap(find.textContaining('BOOK A CONSULTATION').first);
     await _settle(tester);
     expect(find.text('Start a concept.'), findsWidgets);
     expect(find.text('Which practice?'), findsOneWidget);

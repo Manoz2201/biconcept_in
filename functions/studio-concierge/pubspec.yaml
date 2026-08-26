@@ -1,0 +1,14 @@
+name: studio_concierge
+description: Signed-in studio concierge Function — Gemini tools against Appwrite tables.
+publish_to: "none"
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+
+dependencies:
+  dart_appwrite: ^19.3.0
+  http: ^1.6.0
+
+dev_dependencies:
+  lints: 5.0.0
+  test: 1.25.8

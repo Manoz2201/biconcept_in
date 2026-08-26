@@ -2,7 +2,7 @@ name: Daily market research
 
 on:
   schedule:
-    - cron: "45 6 * * *"
+    - cron: "45 */6 * * *"
   workflow_dispatch:
 
 jobs:

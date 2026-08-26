@@ -1,5 +1,6 @@
 import 'package:biconcept_in/content/ncr_locations.dart';
 import 'package:biconcept_in/content/seo.dart';
+import 'package:biconcept_in/content/services.dart';
 import 'package:biconcept_in/core/layout/max_width.dart';
 import 'package:biconcept_in/core/layout/site_scaffold.dart';
 import 'package:biconcept_in/core/theme/breakpoints.dart';
@@ -149,7 +150,7 @@ class _ListingsPageState extends State<ListingsPage> {
                 if (snapshot.connectionState != ConnectionState.done) {
                   return const Padding(
                     padding: EdgeInsets.symmetric(vertical: 64),
-                    child: Center(child: CircularProgressIndicator(color: BcColors.gold)),
+                    child: Center(child: CircularProgressIndicator(color: BcColors.brass)),
                   );
                 }
                 if (snapshot.hasError) {
@@ -179,8 +180,8 @@ class _ListingsPageState extends State<ListingsPage> {
                         ),
                         const SizedBox(height: 24),
                         GoldButton(
-                          label: 'Start a concept',
-                          onPressed: () => context.go('/inquire'),
+                          label: PracticeKind.realEstate.ctaLabel,
+                          onPressed: () => context.go(PracticeKind.realEstate.inquirePath()),
                         ),
                       ],
                     ),
@@ -199,7 +200,7 @@ class _ListingsPageState extends State<ListingsPage> {
           ),
         ),
         FaqSection(items: seo.faqs),
-        const CtaBand(),
+        const CtaBand(practice: PracticeKind.realEstate),
       ],
     );
   }
@@ -222,13 +223,14 @@ class _Chip extends StatelessWidget {
           duration: const Duration(milliseconds: 220),
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
           decoration: BoxDecoration(
-            color: selected ? BcColors.gold : Colors.transparent,
-            border: Border.all(color: selected ? BcColors.gold : BcColors.line),
+            color: selected ? BcColors.brass : Colors.transparent,
+            border: Border.all(color: selected ? BcColors.brass : BcColors.line),
+            borderRadius: BorderRadius.circular(BcColors.radius),
           ),
           child: Text(
             label.toUpperCase(),
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: selected ? BcColors.ink : BcColors.goldSoft,
+                  color: selected ? BcColors.espresso : BcColors.muted,
                   letterSpacing: 1.6,
                   fontSize: 10,
                 ),
@@ -262,8 +264,18 @@ class _ListingCardState extends State<_ListingCard> {
         width: double.infinity,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: _hover ? BcColors.panel : BcColors.charcoal,
-          border: Border.all(color: _hover ? BcColors.gold : BcColors.line),
+          color: _hover ? BcColors.cream : BcColors.stone,
+          border: Border.all(color: _hover ? BcColors.brass : BcColors.line),
+          borderRadius: BorderRadius.circular(BcColors.radius),
+          boxShadow: _hover
+              ? [
+                  BoxShadow(
+                    color: BcColors.espresso.withValues(alpha: 0.08),
+                    blurRadius: 18,
+                    offset: const Offset(0, 8),
+                  ),
+                ]
+              : const [],
         ),
         child: Reveal(
           child: Column(

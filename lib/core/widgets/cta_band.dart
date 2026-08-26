@@ -1,4 +1,5 @@
 import 'package:biconcept_in/content/copy.dart';
+import 'package:biconcept_in/content/services.dart';
 import 'package:biconcept_in/core/layout/max_width.dart';
 import 'package:biconcept_in/core/theme/breakpoints.dart';
 import 'package:biconcept_in/core/theme/colors.dart';
@@ -8,13 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CtaBand extends StatelessWidget {
-  const CtaBand({super.key});
+  const CtaBand({super.key, this.practice});
+
+  final PracticeKind? practice;
 
   @override
   Widget build(BuildContext context) {
     final compact = BcBreakpoints.isCompact(context);
+    final kind = practice;
+    final label = kind?.ctaLabel ?? SiteCopy.ctaButton;
+    final path = kind?.inquirePath() ?? '/inquire';
     return ColoredBox(
-      color: BcColors.panel,
+      color: BcColors.stone,
       child: PageInset(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: compact ? 64 : 96),
@@ -38,8 +44,8 @@ class CtaBand extends StatelessWidget {
                       ),
                       const SizedBox(height: 28),
                       GoldButton(
-                        label: SiteCopy.ctaButton,
-                        onPressed: () => context.go('/inquire'),
+                        label: label,
+                        onPressed: () => context.go(path),
                       ),
                     ],
                   )
@@ -66,8 +72,8 @@ class CtaBand extends StatelessWidget {
                         ),
                       ),
                       GoldButton(
-                        label: SiteCopy.ctaButton,
-                        onPressed: () => context.go('/inquire'),
+                        label: label,
+                        onPressed: () => context.go(path),
                       ),
                     ],
                   ),

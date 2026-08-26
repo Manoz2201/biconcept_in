@@ -58,6 +58,7 @@ class MarketListing {
 
   String get inquirePath {
     final params = <String, String>{
+      'practice': 'real-estate',
       'listing': id,
       if (city.isNotEmpty) 'city': city,
       if (sector.isNotEmpty) 'sector': sector,
@@ -279,4 +280,91 @@ class ServiceRow {
         'lede': lede,
         'published': published,
       };
+}
+
+class StudioOffer {
+  const StudioOffer({
+    required this.id,
+    required this.title,
+    required this.summary,
+    required this.ctaLabel,
+    required this.href,
+    required this.practice,
+    required this.published,
+  });
+
+  final String id;
+  final String title;
+  final String summary;
+  final String ctaLabel;
+  final String href;
+  final String practice;
+  final bool published;
+
+  factory StudioOffer.fromRow(models.Row row) {
+    final data = rowFields(row);
+    return StudioOffer(
+      id: row.$id,
+      title: rowString(data, 'title'),
+      summary: rowString(data, 'summary'),
+      ctaLabel: rowString(data, 'ctaLabel'),
+      href: rowString(data, 'href'),
+      practice: rowString(data, 'practice'),
+      published: rowBool(data, 'published'),
+    );
+  }
+
+  Map<String, dynamic> toData() => {
+        'title': title,
+        'summary': summary,
+        'ctaLabel': ctaLabel,
+        'href': href,
+        'practice': practice,
+        'published': published,
+      };
+}
+
+class AgentJob {
+  const AgentJob({
+    required this.id,
+    required this.agentId,
+    required this.title,
+    required this.status,
+    required this.progress,
+    required this.summary,
+    required this.log,
+    required this.payload,
+    required this.startedAt,
+    required this.finishedAt,
+  });
+
+  final String id;
+  final String agentId;
+  final String title;
+  final String status;
+  final int progress;
+  final String summary;
+  final String log;
+  final String payload;
+  final String startedAt;
+  final String finishedAt;
+
+  bool get isActive => status == 'queued' || status == 'running';
+
+  factory AgentJob.fromRow(models.Row row) {
+    final data = rowFields(row);
+    return AgentJob(
+      id: row.$id,
+      agentId: rowString(data, 'agentId'),
+      title: rowString(data, 'title'),
+      status: rowString(data, 'status'),
+      progress: int.tryParse(rowString(data, 'progress')) ??
+          (data['progress'] is num ? (data['progress'] as num).toInt() : 0),
+      summary: rowString(data, 'summary'),
+      log: rowString(data, 'log'),
+      payload: rowString(data, 'payload'),
+      startedAt: rowString(data, 'startedAt'),
+      finishedAt: rowString(data, 'finishedAt'),
+    );
+  }
 }

@@ -7,6 +7,7 @@ import 'package:biconcept_in/core/theme/breakpoints.dart';
 import 'package:biconcept_in/core/theme/colors.dart';
 import 'package:biconcept_in/core/widgets/cta_band.dart';
 import 'package:biconcept_in/core/widgets/faq_section.dart';
+import 'package:biconcept_in/core/widgets/offer_strip.dart';
 import 'package:biconcept_in/core/widgets/gold_button.dart';
 import 'package:biconcept_in/core/widgets/ken_burns.dart';
 import 'package:biconcept_in/core/widgets/reveal.dart';
@@ -39,6 +40,7 @@ class ServicePage extends StatelessWidget {
     return PageFrame(
       children: [
         _ServiceHero(practice: practice, h1: seo.h1),
+        OfferStrip(practice: practice.kind.slug),
         PageInset(
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: compact ? 56 : 88),
@@ -48,7 +50,7 @@ class ServicePage extends StatelessWidget {
                 child: Text(
                   practice.lede,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: BcColors.goldSoft,
+                        color: BcColors.muted,
                         fontSize: 20,
                       ),
                 ),
@@ -93,7 +95,7 @@ class ServicePage extends StatelessWidget {
                         children: [
                           const SizedBox(
                             width: 28,
-                            child: Divider(color: BcColors.gold, endIndent: 12),
+                            child: Divider(color: BcColors.brass, endIndent: 12),
                           ),
                           Expanded(
                             child: Text(
@@ -110,8 +112,8 @@ class ServicePage extends StatelessWidget {
                     runSpacing: 12,
                     children: [
                       GoldButton(
-                        label: 'Start a concept',
-                        onPressed: () => context.go('/inquire'),
+                        label: practice.ctaLabel,
+                        onPressed: () => context.go(practice.inquirePath),
                       ),
                       if (practice.kind == PracticeKind.realEstate)
                         GoldButton(
@@ -146,7 +148,7 @@ class ServicePage extends StatelessWidget {
             ),
           ),
         if (seo.faqs.isNotEmpty) FaqSection(items: seo.faqs),
-        const CtaBand(),
+        CtaBand(practice: practice.kind),
       ],
     );
   }
@@ -167,15 +169,7 @@ class _ServiceHero extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           KenBurnsImage(url: practice.imageUrl),
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0x660A0A0A), Color(0xE60A0A0A)],
-              ),
-            ),
-          ),
+          const PhotoScrim(),
           PageInset(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 48),
@@ -183,13 +177,14 @@ class _ServiceHero extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Spacer(),
-                  Kicker(practice.kicker),
+                  Kicker(practice.kicker, color: BcColors.brassHover),
                   const SizedBox(height: 16),
                   Text(
                     h1,
-                    style: compact
-                        ? Theme.of(context).textTheme.displaySmall
-                        : Theme.of(context).textTheme.displayMedium,
+                    style: (compact
+                            ? Theme.of(context).textTheme.displaySmall
+                            : Theme.of(context).textTheme.displayMedium)
+                        ?.copyWith(color: BcColors.photoInk),
                   ),
                 ],
               ),
@@ -299,7 +294,8 @@ class _RelatedCardState extends State<_RelatedCard> {
           children: [
             AspectRatio(
               aspectRatio: 4 / 3,
-              child: ClipRect(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(BcColors.radius),
                 child: AnimatedScale(
                   duration: const Duration(milliseconds: 600),
                   scale: _hover ? 1.05 : 1,

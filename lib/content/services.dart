@@ -14,6 +14,23 @@ extension PracticeKindX on PracticeKind {
         PracticeKind.interiors => 'Interiors',
         PracticeKind.realEstate => 'Real estate',
       };
+
+  String get ctaLabel => switch (this) {
+        PracticeKind.architecture => 'Start an architecture brief',
+        PracticeKind.interiors => 'Plan an interiors project',
+        PracticeKind.realEstate => 'Request a site visit',
+      };
+
+  String inquirePath({String? listing, String? city, String? sector, String? offer}) {
+    final params = <String, String>{
+      'practice': slug,
+      if (listing != null && listing.isNotEmpty) 'listing': listing,
+      if (city != null && city.isNotEmpty) 'city': city,
+      if (sector != null && sector.isNotEmpty) 'sector': sector,
+      if (offer != null && offer.isNotEmpty) 'offer': offer,
+    };
+    return Uri(path: '/inquire', queryParameters: params).toString();
+  }
 }
 
 class ProcessStep {
@@ -45,6 +62,8 @@ class Practice {
 
   String get route => kind.route;
   String get label => kind.label;
+  String get ctaLabel => kind.ctaLabel;
+  String get inquirePath => kind.inquirePath();
 }
 
 abstract final class Practices {

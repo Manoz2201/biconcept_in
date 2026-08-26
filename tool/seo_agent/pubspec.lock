@@ -9,6 +9,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "105.0.0"
+  agent_runtime:
+    dependency: "direct main"
+    description:
+      path: "../agent_runtime"
+      relative: true
+    source: path
+    version: "0.0.0"
   analyzer:
     dependency: transitive
     description:
@@ -81,6 +88,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.7"
+  dart_appwrite:
+    dependency: transitive
+    description:
+      name: dart_appwrite
+      sha256: d61791b20ad45ccc415633d89ff157e10b9756042b0040e80d5ed220c406d525
+      url: "https://pub.dev"
+    source: hosted
+    version: "19.4.0"
   file:
     dependency: transitive
     description:
