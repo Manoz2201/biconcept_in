@@ -35,6 +35,7 @@ class MarketListing {
     required this.summary,
     required this.sourceUrl,
     required this.sourceName,
+    this.imageUrl = '',
     required this.published,
     required this.researchedAt,
   });
@@ -51,10 +52,17 @@ class MarketListing {
   final String summary;
   final String sourceUrl;
   final String sourceName;
+  final String imageUrl;
   final bool published;
   final String researchedAt;
 
   String get placeLabel => NcrLocations.labelFor(city: city, sector: sector);
+
+  String get coverUrl {
+    final raw = imageUrl.trim();
+    if (raw.isNotEmpty) return AppwriteConfig.fileViewUrl(raw);
+    return listingCoverFor(city: city, title: title);
+  }
 
   String get inquirePath {
     final params = <String, String>{
@@ -81,6 +89,7 @@ class MarketListing {
       summary: rowString(data, 'summary'),
       sourceUrl: rowString(data, 'sourceUrl'),
       sourceName: rowString(data, 'sourceName'),
+      imageUrl: rowString(data, 'imageUrl'),
       published: rowBool(data, 'published'),
       researchedAt: rowString(data, 'researchedAt'),
     );
@@ -98,9 +107,36 @@ class MarketListing {
         'summary': summary,
         'sourceUrl': sourceUrl,
         'sourceName': sourceName,
+        'imageUrl': imageUrl,
         'published': published,
         'researchedAt': researchedAt,
       };
+}
+
+/// City-tinted photography so listing cards still read as a gallery when no
+/// project stills have been uploaded yet.
+String listingCoverFor({required String city, required String title}) {
+  const delhi = [
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=80',
+  ];
+  const noida = [
+    'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdbc?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1400&q=80',
+  ];
+  const greaterNoida = [
+    'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=1400&q=80',
+    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=80',
+  ];
+  final pool = switch (city) {
+    'delhi' => delhi,
+    'greater-noida' => greaterNoida,
+    _ => noida,
+  };
+  return pool[title.hashCode.abs() % pool.length];
 }
 
 class StudioLead {

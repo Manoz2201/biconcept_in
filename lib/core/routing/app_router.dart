@@ -10,6 +10,7 @@ import 'package:biconcept_in/features/inquire/inquire_page.dart';
 import 'package:biconcept_in/features/listings/listings_page.dart';
 import 'package:biconcept_in/features/services/service_page.dart';
 import 'package:biconcept_in/features/studio/studio_page.dart';
+import 'package:biconcept_in/features/studio/studio_practice_page.dart';
 import 'package:biconcept_in/features/work/project_page.dart';
 import 'package:biconcept_in/features/work/work_page.dart';
 import 'package:flutter/material.dart';
@@ -84,6 +85,15 @@ GoRouter createRouter() {
           GoRoute(
             path: '/studio',
             pageBuilder: (context, state) => _fade(state, const StudioPage()),
+            routes: [
+              GoRoute(
+                path: ':practice',
+                pageBuilder: (context, state) {
+                  final slug = state.pathParameters['practice'] ?? '';
+                  return _fade(state, StudioPracticePage(practiceSlug: slug));
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: '/inquire',

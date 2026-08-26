@@ -80,7 +80,10 @@ class ListingsRepository {
 
   final TablesDB _tables;
 
+  static List<MarketListing>? debugListings;
+
   Future<List<MarketListing>> listPublished({String? city, String? sector}) async {
+    if (debugListings != null) return debugListings!;
     if (_inWidgetTest) return const [];
     final queries = <String>[
       Query.equal('published', true),
@@ -182,6 +185,7 @@ class LeadsRepository {
     required String listingId,
     String offer = '',
   }) async {
+    if (_inWidgetTest) return;
     final brief = offer.trim().isEmpty ? message : 'Offer: $offer\n$message';
     await _tables.createRow(
       databaseId: AppwriteConfig.databaseId,

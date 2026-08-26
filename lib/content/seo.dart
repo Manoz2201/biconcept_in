@@ -132,6 +132,15 @@ abstract final class SiteSeo {
         h1: 'NCR, by pocket.',
       );
     }
+    if (path.startsWith('/studio/')) {
+      return studio.copyWith(
+        title: 'Studio — BiConcept',
+        description:
+            'Architecture, interiors, and real estate projects from the BiConcept studio. Open a card to read the brief and leave your details.',
+        h1: 'Three doors into the work.',
+        faqs: const [],
+      );
+    }
     if (path.startsWith('/work/')) {
       return forPath('/work').copyWith(
         title: 'Project — BiConcept',

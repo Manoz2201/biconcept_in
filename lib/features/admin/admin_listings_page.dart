@@ -131,6 +131,7 @@ class _ListingEditorState extends State<_ListingEditor> {
   late final TextEditingController _summary;
   late final TextEditingController _sourceUrl;
   late final TextEditingController _sourceName;
+  late final TextEditingController _imageUrl;
   late String _city;
   late String _sector;
   late String _status;
@@ -148,6 +149,7 @@ class _ListingEditorState extends State<_ListingEditor> {
     _summary = TextEditingController(text: listing?.summary ?? '');
     _sourceUrl = TextEditingController(text: listing?.sourceUrl ?? '');
     _sourceName = TextEditingController(text: listing?.sourceName ?? '');
+    _imageUrl = TextEditingController(text: listing?.imageUrl ?? '');
     _city = listing?.city.isNotEmpty == true ? listing!.city : NcrLocations.noida.slug;
     _sector = listing?.sector ?? '';
     _status = listing?.status.isNotEmpty == true ? listing!.status : 'upcoming';
@@ -164,6 +166,7 @@ class _ListingEditorState extends State<_ListingEditor> {
     _summary.dispose();
     _sourceUrl.dispose();
     _sourceName.dispose();
+    _imageUrl.dispose();
     super.dispose();
   }
 
@@ -241,6 +244,11 @@ class _ListingEditorState extends State<_ListingEditor> {
               TextField(controller: _sourceUrl, decoration: const InputDecoration(labelText: 'SOURCE URL')),
               const SizedBox(height: 12),
               TextField(controller: _sourceName, decoration: const InputDecoration(labelText: 'SOURCE NAME')),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _imageUrl,
+                decoration: const InputDecoration(labelText: 'IMAGE URL'),
+              ),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const Text('Published'),
@@ -271,6 +279,7 @@ class _ListingEditorState extends State<_ListingEditor> {
                 summary: _summary.text.trim(),
                 sourceUrl: _sourceUrl.text.trim(),
                 sourceName: _sourceName.text.trim(),
+                imageUrl: _imageUrl.text.trim(),
                 published: _published,
                 researchedAt: DateTime.now().toUtc().toIso8601String(),
               ),

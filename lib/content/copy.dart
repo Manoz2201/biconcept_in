@@ -34,6 +34,11 @@ abstract final class SiteCopy {
   static const studioStory =
       'The studio was formed so a client would not have to assemble an architect, a decorator, and a broker and then hope they agree. We begin with intent: inhabit, hold, or develop. Then we draw. Then we stay until the space is occupied or the land is placed.';
 
+  static const studioPracticesKicker = 'Practices';
+  static const studioPracticesTitle = 'Three doors into the work.';
+  static const studioPracticesBody =
+      'Open a practice to see current projects. Tap a card for the full brief, then leave your name if you would like the studio to follow.';
+
   static const inquireIntro =
       'A short brief is enough. We read it, and we reply with whether we are the right studio — and if we are, with the first questions that matter.';
 
