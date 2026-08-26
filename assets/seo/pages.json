@@ -24,10 +24,15 @@
     },
     {
       "path": "/architecture",
-      "title": "Architecture — BiConcept",
-      "description": "Architectural design by BiConcept: villas, residences, and developments composed as enduring spatial ideas.",
+      "title": "Architecture Studio India | Villa Architects — BiConcept",
+      "description": "BiConcept is a conceptual architecture studio in India designing luxury villas, private residences, and developments composed as enduring spatial ideas.",
       "h1": "Architecture as a held idea.",
-      "keywords": ["architect India", "villa architecture", "residential architect"],
+      "keywords": [
+        "architecture studio India",
+        "luxury villa architect India",
+        "residential architect",
+        "BiConcept architecture"
+      ],
       "faqs": [
         {
           "question": "What architecture work does BiConcept take on?",
@@ -41,10 +46,15 @@
     },
     {
       "path": "/interiors",
-      "title": "Interior Design — BiConcept",
-      "description": "Interior design by BiConcept: material, light, and proportion composed for how a space is actually lived.",
+      "title": "Luxury Interior Design Studio in India | BiConcept",
+      "description": "BiConcept creates calm, refined interior design across India. Material, light, and spatial proportion composed for how luxury residences are actually lived.",
       "h1": "Interiors with architectural calm.",
-      "keywords": ["interior designer India", "luxury interiors", "residential interiors"],
+      "keywords": [
+        "luxury interior design studio India",
+        "interior design studio",
+        "residential interior designer",
+        "BiConcept interiors"
+      ],
       "faqs": [
         {
           "question": "Is interior design a separate service?",
@@ -58,10 +68,15 @@
     },
     {
       "path": "/real-estate",
-      "title": "Real Estate — BiConcept",
-      "description": "Real estate advisory by BiConcept: land, residences, and developments selected and shaped with a designer’s eye.",
+      "title": "Luxury Real Estate Advisory & Land Studio | BiConcept",
+      "description": "BiConcept provides bespoke luxury real estate advisory across India. Land, private residences, and developments selected and shaped with a designer’s eye.",
       "h1": "Land, composed.",
-      "keywords": ["real estate India", "luxury property", "land advisory"],
+      "keywords": [
+        "real estate advisory luxury India",
+        "luxury property advisory",
+        "land advisory India",
+        "BiConcept real estate"
+      ],
       "faqs": [
         {
           "question": "Is this a brokerage?",
@@ -78,7 +93,11 @@
       "title": "Selected Work — BiConcept",
       "description": "Selected architecture, interior, and real estate work by BiConcept. Case studies of spaces conceived as one concept.",
       "h1": "Selected work.",
-      "keywords": ["architecture portfolio", "interior projects", "BiConcept work"],
+      "keywords": [
+        "architecture portfolio",
+        "interior projects",
+        "BiConcept work"
+      ],
       "faqs": []
     },
     {
@@ -86,7 +105,11 @@
       "title": "Studio — BiConcept",
       "description": "The BiConcept studio: a conceptual practice for architecture, interiors, and real estate, composed as a single idea.",
       "h1": "A studio of one concept.",
-      "keywords": ["design studio India", "architecture studio", "about BiConcept"],
+      "keywords": [
+        "design studio India",
+        "architecture studio",
+        "about BiConcept"
+      ],
       "faqs": []
     },
     {
@@ -94,7 +117,10 @@
       "title": "Start a concept — BiConcept",
       "description": "Begin a BiConcept consultation for architecture, interior design, or real estate. Tell us the brief. We will compose the first idea.",
       "h1": "Start a concept.",
-      "keywords": ["architecture consultation", "interior design inquiry"],
+      "keywords": [
+        "architecture consultation",
+        "interior design inquiry"
+      ],
       "faqs": []
     },
     {
