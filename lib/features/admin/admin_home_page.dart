@@ -48,7 +48,11 @@ class _AdminHomePageState extends State<AdminHomePage> {
           if (snapshot.hasError) {
             return AdminError(
               'Could not load the console. Confirm you are signed in.',
-              onRetry: () => setState(() => _future = _load()),
+              onRetry: () {
+                setState(() {
+                  _future = _load();
+                });
+              },
             );
           }
           final counts = snapshot.data!;

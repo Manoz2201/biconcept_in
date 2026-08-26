@@ -2,10 +2,10 @@ import 'package:biconcept_in/content/brand.dart';
 import 'package:biconcept_in/content/copy.dart';
 import 'package:biconcept_in/core/theme/breakpoints.dart';
 import 'package:biconcept_in/core/theme/colors.dart';
+import 'package:biconcept_in/core/theme/theme.dart';
 import 'package:biconcept_in/core/widgets/gold_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class NavItem {
   const NavItem(this.label, this.path);
@@ -205,7 +205,8 @@ class _Wordmark extends StatelessWidget {
         onTap: onTap,
         child: Text(
           Brand.name,
-          style: GoogleFonts.cormorantGaramond(
+          style: TextStyle(
+            fontFamily: BcFonts.display,
             fontSize: 26,
             fontWeight: FontWeight.w500,
             color: color,

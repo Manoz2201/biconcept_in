@@ -37,7 +37,9 @@ class _StudioPracticePageState extends State<StudioPracticePage> {
   void didUpdateWidget(covariant StudioPracticePage oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.practiceSlug != widget.practiceSlug) {
-      setState(() => _future = _load());
+      setState(() {
+        _future = _load();
+      });
     }
   }
 
@@ -256,6 +258,7 @@ class _ProjectCardState extends State<_ProjectCard> {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         key: Key('studio-item-${item.id}'),
+        behavior: HitTestBehavior.opaque,
         onTap: () => showStudioInterestDialog(context, item.target),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -39,7 +39,9 @@ class _ListingsPageState extends State<ListingsPage> {
   void didUpdateWidget(covariant ListingsPage oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.citySlug != widget.citySlug || oldWidget.sectorSlug != widget.sectorSlug) {
-      setState(() => _future = _load());
+      setState(() {
+        _future = _load();
+      });
     }
   }
 

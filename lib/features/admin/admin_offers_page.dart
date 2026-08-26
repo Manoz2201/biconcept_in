@@ -22,7 +22,11 @@ class _AdminOffersPageState extends State<AdminOffersPage> {
     _future = _repo.listAll();
   }
 
-  void _reload() => setState(() => _future = _repo.listAll());
+  void _reload() {
+    setState(() {
+      _future = _repo.listAll();
+    });
+  }
 
   Future<void> _edit([StudioOffer? row]) async {
     final saved = await showDialog<StudioOffer>(

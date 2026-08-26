@@ -26,7 +26,11 @@ class _AdminListingsPageState extends State<AdminListingsPage> {
     _future = _repo.listAll();
   }
 
-  void _reload() => setState(() => _future = _repo.listAll());
+  void _reload() {
+    setState(() {
+      _future = _repo.listAll();
+    });
+  }
 
   Future<void> _edit([MarketListing? listing]) async {
     final saved = await showDialog<MarketListing>(

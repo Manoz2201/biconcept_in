@@ -25,7 +25,11 @@ class _AdminLeadsPageState extends State<AdminLeadsPage> {
     _future = _repo.listAll();
   }
 
-  void _reload() => setState(() => _future = _repo.listAll());
+  void _reload() {
+    setState(() {
+      _future = _repo.listAll();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

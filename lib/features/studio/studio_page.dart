@@ -236,6 +236,7 @@ class _StudioPracticeCardState extends State<_StudioPracticeCard> {
       onExit: (_) => setState(() => _hover = false),
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () => context.go('/studio/${widget.practice.kind.slug}'),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 280),

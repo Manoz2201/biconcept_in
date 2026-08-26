@@ -11,7 +11,6 @@ import 'package:biconcept_in/features/admin/admin_services_page.dart';
 import 'package:biconcept_in/features/admin/admin_showcase_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AdminShell extends StatefulWidget {
   const AdminShell({super.key, required this.section});
@@ -77,7 +76,10 @@ class _AdminShellState extends State<AdminShell> {
     final shell = compact
         ? Scaffold(
             appBar: AppBar(
-              title: Text('Console', style: GoogleFonts.cormorantGaramond()),
+              title: const Text(
+                'Console',
+                style: TextStyle(fontFamily: BcFonts.display),
+              ),
               actions: [
                 IconButton(onPressed: _logout, icon: const Icon(Icons.logout), tooltip: 'Sign out'),
               ],
@@ -133,7 +135,8 @@ class _Nav extends StatelessWidget {
           children: [
             Text(
               'BiConcept',
-              style: GoogleFonts.cormorantGaramond(
+              style: const TextStyle(
+                fontFamily: BcFonts.display,
                 fontSize: 24,
                 color: BcAdminColors.ivory,
                 fontWeight: FontWeight.w500,

@@ -4,11 +4,9 @@ import 'package:biconcept_in/data/repositories.dart';
 import 'package:biconcept_in/features/admin/admin_agents_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  GoogleFonts.config.allowRuntimeFetching = false;
 
   setUp(() {
     AgentJobsRepository.debugJobs = [

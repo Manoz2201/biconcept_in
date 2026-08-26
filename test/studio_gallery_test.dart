@@ -5,7 +5,6 @@ import 'package:biconcept_in/data/models.dart';
 import 'package:biconcept_in/data/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 Future<void> _pumpAt(WidgetTester tester, String location) async {
@@ -23,7 +22,6 @@ Future<void> _pumpAt(WidgetTester tester, String location) async {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  GoogleFonts.config.allowRuntimeFetching = false;
   VisibilityDetectorController.instance.updateInterval = Duration.zero;
 
   setUpAll(() async {
@@ -71,7 +69,10 @@ void main() {
     await _pumpAt(tester, '/studio/real-estate');
     expect(find.text('Godrej Jardinia'), findsWidgets);
 
-    await tester.tap(find.byKey(const Key('studio-item-listing-1')));
+    final listingCard = find.byKey(const Key('studio-item-listing-1'));
+    await tester.ensureVisible(listingCard);
+    await tester.pump();
+    await tester.tap(listingCard);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
     expect(find.text('Leave your details.'), findsOneWidget);
@@ -90,7 +91,10 @@ void main() {
     await _pumpAt(tester, '/studio/architecture');
     expect(find.text('House on the Ridge'), findsWidgets);
 
-    await tester.tap(find.byKey(const Key('studio-item-house-on-the-ridge')));
+    final workCard = find.byKey(const Key('studio-item-house-on-the-ridge'));
+    await tester.ensureVisible(workCard);
+    await tester.pump();
+    await tester.tap(workCard);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
     expect(find.text('Leave your details.'), findsOneWidget);

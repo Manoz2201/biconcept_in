@@ -54,7 +54,7 @@ class _Hero extends StatelessWidget {
         children: [
           const KenBurnsImage(
             url:
-                'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=2000&q=80',
+                'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1400&q=68',
           ),
           const PhotoScrim(),
           PageInset(
@@ -285,7 +285,13 @@ class _SelectedWorkState extends State<_SelectedWork> {
   @override
   void initState() {
     super.initState();
-    _future = ShowcaseRepository().featuredProjects();
+    _future = _loadAfterFirstFrame();
+  }
+
+  Future<List<Project>> _loadAfterFirstFrame() async {
+    await WidgetsBinding.instance.endOfFrame;
+    if (!mounted) return const [];
+    return ShowcaseRepository().featuredProjects();
   }
 
   @override
@@ -363,6 +369,7 @@ class _FeaturedTileState extends State<_FeaturedTile> {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () => context.go(widget.project.route),
+        behavior: HitTestBehavior.opaque,
         child: AspectRatio(
           aspectRatio: compact ? 4 / 3 : 16 / 11,
           child: ClipRect(

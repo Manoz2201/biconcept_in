@@ -22,7 +22,13 @@ class _OfferStripState extends State<OfferStrip> {
   @override
   void initState() {
     super.initState();
-    _future = OffersRepository().listPublished(practice: widget.practice);
+    _future = _loadAfterFirstFrame();
+  }
+
+  Future<List<StudioOffer>> _loadAfterFirstFrame() async {
+    await WidgetsBinding.instance.endOfFrame;
+    if (!mounted) return const [];
+    return OffersRepository().listPublished(practice: widget.practice);
   }
 
   String _href(StudioOffer offer) {

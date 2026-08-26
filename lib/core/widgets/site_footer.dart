@@ -4,9 +4,9 @@ import 'package:biconcept_in/content/services.dart';
 import 'package:biconcept_in/core/layout/max_width.dart';
 import 'package:biconcept_in/core/theme/breakpoints.dart';
 import 'package:biconcept_in/core/theme/colors.dart';
+import 'package:biconcept_in/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SiteFooter extends StatelessWidget {
@@ -91,7 +91,8 @@ class _BrandBlock extends StatelessWidget {
       children: [
         Text(
           Brand.name,
-          style: GoogleFonts.cormorantGaramond(
+          style: const TextStyle(
+            fontFamily: BcFonts.display,
             fontSize: 32,
             color: BcColors.espresso,
             fontWeight: FontWeight.w500,

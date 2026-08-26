@@ -1,10 +1,10 @@
 import 'package:biconcept_in/app.dart';
 import 'package:biconcept_in/content/seo.dart';
 import 'package:biconcept_in/core/widgets/faq_section.dart';
+import 'package:biconcept_in/core/widgets/ken_burns.dart';
 import 'package:biconcept_in/data/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 Future<void> _pumpApp(WidgetTester tester, Size size) async {
@@ -24,12 +24,20 @@ Future<void> _settle(WidgetTester tester) async {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  GoogleFonts.config.allowRuntimeFetching = false;
   VisibilityDetectorController.instance.updateInterval = Duration.zero;
 
   setUpAll(() async {
     await SiteSeo.load();
     ShowcaseRepository.forceLocalProjects = true;
+  });
+
+  test('tunedPhotoUrl shrinks Unsplash query width', () {
+    final url = tunedPhotoUrl(
+      'https://images.unsplash.com/photo-x?auto=format&fit=crop&w=2000&q=80',
+      width: 1400,
+    );
+    expect(url, contains('w=1400'));
+    expect(url, contains('q=68'));
   });
 
   testWidgets('home renders BiConcept wordmark and primary CTA', (tester) async {
@@ -75,6 +83,10 @@ void main() {
     expect(find.text('Land, composed.'), findsWidgets);
 
     await tester.tap(find.text('Listings').first);
+    await _settle(tester);
+    expect(find.text('NCR, by pocket.'), findsWidgets);
+
+    await tester.tap(find.text('NOIDA').first);
     await _settle(tester);
     expect(find.text('NCR, by pocket.'), findsWidgets);
 

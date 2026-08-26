@@ -25,7 +25,11 @@ class _AdminShowcasePageState extends State<AdminShowcasePage> {
     _future = _repo.listAll();
   }
 
-  void _reload() => setState(() => _future = _repo.listAll());
+  void _reload() {
+    setState(() {
+      _future = _repo.listAll();
+    });
+  }
 
   Future<void> _edit([ShowcaseRow? row]) async {
     final saved = await showDialog<ShowcaseRow>(

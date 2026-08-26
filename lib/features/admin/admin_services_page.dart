@@ -22,7 +22,11 @@ class _AdminServicesPageState extends State<AdminServicesPage> {
     _future = _repo.listAll();
   }
 
-  void _reload() => setState(() => _future = _repo.listAll());
+  void _reload() {
+    setState(() {
+      _future = _repo.listAll();
+    });
+  }
 
   Future<void> _edit([ServiceRow? row]) async {
     final saved = await showDialog<ServiceRow>(

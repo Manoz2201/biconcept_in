@@ -1,79 +1,90 @@
 import 'package:biconcept_in/core/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+abstract final class BcFonts {
+  static const display = 'Cormorant Garamond';
+  static const body = 'Outfit';
+}
 
 abstract final class BcTheme {
   static ThemeData get gallery {
-    final base = ThemeData.light();
-    final display = GoogleFonts.cormorantGaramondTextTheme(base.textTheme);
-    final body = GoogleFonts.outfitTextTheme(base.textTheme);
-
+    const espresso = BcColors.espresso;
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
+      fontFamily: BcFonts.body,
       scaffoldBackgroundColor: BcColors.paper,
       canvasColor: BcColors.paper,
       colorScheme: const ColorScheme.light(
         primary: BcColors.brass,
-        onPrimary: BcColors.espresso,
+        onPrimary: espresso,
         secondary: BcColors.brassHover,
         surface: BcColors.cream,
-        onSurface: BcColors.espresso,
+        onSurface: espresso,
         outline: BcColors.line,
       ),
-      textTheme: body.copyWith(
-        displayLarge: display.displayLarge?.copyWith(
+      textTheme: const TextTheme(
+        displayLarge: TextStyle(
+          fontFamily: BcFonts.display,
           fontSize: 88,
           fontWeight: FontWeight.w400,
           height: 0.95,
           letterSpacing: -1.2,
-          color: BcColors.espresso,
+          color: espresso,
         ),
-        displayMedium: display.displayMedium?.copyWith(
+        displayMedium: TextStyle(
+          fontFamily: BcFonts.display,
           fontSize: 56,
           fontWeight: FontWeight.w400,
           height: 1.05,
           letterSpacing: -0.6,
-          color: BcColors.espresso,
+          color: espresso,
         ),
-        displaySmall: display.displaySmall?.copyWith(
+        displaySmall: TextStyle(
+          fontFamily: BcFonts.display,
           fontSize: 40,
           fontWeight: FontWeight.w400,
           height: 1.1,
           letterSpacing: -0.3,
-          color: BcColors.espresso,
+          color: espresso,
         ),
-        headlineMedium: display.headlineMedium?.copyWith(
+        headlineMedium: TextStyle(
+          fontFamily: BcFonts.display,
           fontSize: 28,
           fontWeight: FontWeight.w500,
           height: 1.2,
-          color: BcColors.espresso,
+          color: espresso,
         ),
-        headlineSmall: display.headlineSmall?.copyWith(
+        headlineSmall: TextStyle(
+          fontFamily: BcFonts.display,
           fontSize: 22,
           fontWeight: FontWeight.w500,
           height: 1.25,
-          color: BcColors.espresso,
+          color: espresso,
         ),
-        titleMedium: body.titleMedium?.copyWith(
+        titleMedium: TextStyle(
+          fontFamily: BcFonts.body,
           fontSize: 15,
           fontWeight: FontWeight.w400,
           letterSpacing: 0.2,
-          color: BcColors.espresso,
+          color: espresso,
         ),
-        bodyLarge: body.bodyLarge?.copyWith(
+        bodyLarge: TextStyle(
+          fontFamily: BcFonts.body,
           fontSize: 17,
           height: 1.65,
           fontWeight: FontWeight.w400,
-          color: BcColors.espresso,
+          color: espresso,
         ),
-        bodyMedium: body.bodyMedium?.copyWith(
+        bodyMedium: TextStyle(
+          fontFamily: BcFonts.body,
           fontSize: 15,
           height: 1.6,
           fontWeight: FontWeight.w400,
           color: BcColors.muted,
         ),
-        labelSmall: body.labelSmall?.copyWith(
+        labelSmall: TextStyle(
+          fontFamily: BcFonts.body,
           fontSize: 11,
           fontWeight: FontWeight.w400,
           letterSpacing: 2.4,
@@ -116,12 +127,10 @@ abstract final class BcTheme {
   }
 
   static ThemeData get admin {
-    final display = GoogleFonts.cormorantGaramondTextTheme(ThemeData.dark().textTheme);
-    final body = GoogleFonts.outfitTextTheme(ThemeData.dark().textTheme);
-
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      fontFamily: BcFonts.body,
       scaffoldBackgroundColor: BcAdminColors.ink,
       canvasColor: BcAdminColors.ink,
       colorScheme: const ColorScheme.dark(
@@ -132,37 +141,43 @@ abstract final class BcTheme {
         onSurface: BcAdminColors.ivory,
         outline: BcAdminColors.line,
       ),
-      textTheme: body.copyWith(
-        displaySmall: display.displaySmall?.copyWith(
+      textTheme: const TextTheme(
+        displaySmall: TextStyle(
+          fontFamily: BcFonts.display,
           fontSize: 40,
           fontWeight: FontWeight.w400,
           height: 1.1,
           color: BcAdminColors.ivory,
         ),
-        headlineSmall: display.headlineSmall?.copyWith(
+        headlineSmall: TextStyle(
+          fontFamily: BcFonts.display,
           fontSize: 22,
           fontWeight: FontWeight.w500,
           height: 1.25,
           color: BcAdminColors.ivory,
         ),
-        titleMedium: body.titleMedium?.copyWith(
+        titleMedium: TextStyle(
+          fontFamily: BcFonts.body,
           fontSize: 15,
           fontWeight: FontWeight.w400,
           color: BcAdminColors.ivory,
         ),
-        bodyLarge: body.bodyLarge?.copyWith(
+        bodyLarge: TextStyle(
+          fontFamily: BcFonts.body,
           fontSize: 17,
           height: 1.65,
           fontWeight: FontWeight.w400,
           color: BcAdminColors.ivory,
         ),
-        bodyMedium: body.bodyMedium?.copyWith(
+        bodyMedium: TextStyle(
+          fontFamily: BcFonts.body,
           fontSize: 15,
           height: 1.6,
           fontWeight: FontWeight.w400,
           color: BcAdminColors.muted,
         ),
-        labelSmall: body.labelSmall?.copyWith(
+        labelSmall: TextStyle(
+          fontFamily: BcFonts.body,
           fontSize: 11,
           fontWeight: FontWeight.w400,
           letterSpacing: 2.4,

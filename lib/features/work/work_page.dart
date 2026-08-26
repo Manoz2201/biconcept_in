@@ -223,6 +223,7 @@ class _WorkCardState extends State<_WorkCard> {
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         key: Key('project-${widget.project.slug}'),
+        behavior: HitTestBehavior.opaque,
         onTap: () => context.go(widget.project.route),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

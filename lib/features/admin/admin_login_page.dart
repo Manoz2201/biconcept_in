@@ -6,7 +6,6 @@ import 'package:biconcept_in/core/widgets/reveal.dart';
 import 'package:biconcept_in/data/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AdminLoginPage extends StatefulWidget {
   const AdminLoginPage({super.key});
@@ -91,7 +90,8 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                   children: [
                     Text(
                       'BiConcept',
-                      style: GoogleFonts.cormorantGaramond(
+                      style: const TextStyle(
+                        fontFamily: BcFonts.display,
                         fontSize: 28,
                         color: BcAdminColors.ivory,
                         fontWeight: FontWeight.w500,

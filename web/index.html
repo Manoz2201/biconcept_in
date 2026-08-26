@@ -5,6 +5,7 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#F6F1E8">
   <meta name="description" content="BiConcept conceives architecture, interior design, and real estate as one idea. A conceptual studio for homes, developments, and land across India.">
   <meta name="keywords" content="BiConcept, architecture India, interior design, luxury real estate, conceptual studio">
@@ -31,6 +32,11 @@
   <link rel="icon" type="image/png" href="favicon.png"/>
   <link rel="manifest" href="manifest.json">
 
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <link rel="dns-prefetch" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://sgp.cloud.appwrite.io" crossorigin>
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&amp;fit=crop&amp;w=1400&amp;q=68">
+
   <title>BiConcept — Architecture, Interiors &amp; Real Estate</title>
 
   <script type="application/ld+json">
@@ -53,9 +59,37 @@
       background: #F6F1E8;
       color: #2C241C;
     }
+    #bc-boot {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #F6F1E8;
+      color: #2C241C;
+      font-family: Georgia, "Times New Roman", serif;
+      letter-spacing: 0.28em;
+      font-size: 15px;
+      text-transform: uppercase;
+      transition: opacity 240ms ease;
+    }
+    #bc-boot.gone {
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
+  <div id="bc-boot">BiConcept</div>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var el = document.getElementById('bc-boot');
+      if (!el) return;
+      el.classList.add('gone');
+      setTimeout(function () { el.remove(); }, 280);
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

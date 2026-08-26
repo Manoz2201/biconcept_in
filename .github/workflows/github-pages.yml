@@ -31,7 +31,7 @@ jobs:
           cache: true
 
       - name: Build web
-        run: flutter build web --release --base-href /biconcept_in/
+        run: flutter build web --release --wasm --no-source-maps --base-href /biconcept_in/
 
       - name: SPA fallback for deep links
         run: cp build/web/index.html build/web/404.html
