@@ -55,15 +55,19 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
       if (!mounted) return;
       setState(() {
         _busy = false;
-        _error = error.message?.trim().isNotEmpty == true
-            ? error.message!
+        final message = error.message?.trim();
+        _error = (message != null && message.isNotEmpty)
+            ? message
             : 'Sign-in failed. Check the studio username and password.';
       });
-    } catch (_) {
+    } catch (error) {
       if (!mounted) return;
       setState(() {
         _busy = false;
-        _error = 'Sign-in failed. Check the studio username and password.';
+        final message = error.toString().trim();
+        _error = message.isNotEmpty
+            ? message
+            : 'Sign-in failed. Check the studio username and password.';
       });
     }
   }
