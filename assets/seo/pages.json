@@ -126,18 +126,24 @@
     },
     {
       "path": "/inquire",
-      "title": "Start a concept — BiConcept",
-      "description": "Begin a BiConcept consultation for architecture, interior design, or real estate. Tell us the brief. We will compose the first idea.",
+      "title": "Architecture & Interior Design Inquiry — BiConcept",
+      "description": "Begin a consultation with BiConcept for luxury architecture, interior design, or real estate advisory. Share your brief and compose the first idea.",
       "h1": "Start a concept.",
       "keywords": [
         "architecture consultation",
-        "interior design inquiry"
+        "interior design inquiry",
+        "BiConcept contact"
       ],
-      "faqs": []
+      "faqs": [
+        {
+          "question": "How do I initiate a project with BiConcept?",
+          "answer": "Begin a consultation by sharing your brief with the studio for architecture, interior design, or real estate advisory."
+        }
+      ]
     },
     {
       "path": "/listings",
-      "title": "NCR Property & Residential Projects — BiConcept",
+      "title": "Luxury NCR Property & Residential Projects — BiConcept",
       "description": "Explore upcoming and newly launched luxury residential projects in Delhi, Noida, and Greater Noida, researched and reviewed for BiConcept studio clients.",
       "h1": "NCR, by pocket.",
       "keywords": [

@@ -1,0 +1,97 @@
+{
+  "at": "2026-08-27T14:31:17.810691Z",
+  "skipped": false,
+  "note": "applied 2 page(s)",
+  "queries": [
+    "architecture studio India",
+    "luxury villa architect India",
+    "interior designer Mumbai Delhi Bangalore",
+    "luxury interior design studio India",
+    "real estate advisory luxury India",
+    "architect for holiday home Lonavala Alibaug",
+    "conceptual architecture practice India",
+    "BiConcept architecture interiors"
+  ],
+  "changes": [
+    {
+      "path": "/inquire",
+      "reason": "Previous title (27 chars) and description (135 chars) were under-length for optimal SERP display and keyword presence.",
+      "before": {
+        "path": "/inquire",
+        "title": "Start a concept — BiConcept",
+        "description": "Begin a BiConcept consultation for architecture, interior design, or real estate. Tell us the brief. We will compose the first idea.",
+        "h1": "Start a concept.",
+        "keywords": [
+          "architecture consultation",
+          "interior design inquiry"
+        ],
+        "faqs": []
+      },
+      "after": {
+        "path": "/inquire",
+        "title": "Architecture & Interior Design Inquiry — BiConcept",
+        "description": "Begin a consultation with BiConcept for luxury architecture, interior design, or real estate advisory. Share your brief and compose the first idea.",
+        "h1": "Start a concept.",
+        "keywords": [
+          "architecture consultation",
+          "interior design inquiry",
+          "BiConcept contact"
+        ],
+        "faqs": [
+          {
+            "question": "How do I initiate a project with BiConcept?",
+            "answer": "Begin a consultation by sharing your brief with the studio for architecture, interior design, or real estate advisory."
+          }
+        ]
+      }
+    },
+    {
+      "path": "/listings",
+      "reason": "Expanding title length to 54 characters strengthens target keyword matching for high-end NCR searches.",
+      "before": {
+        "path": "/listings",
+        "title": "NCR Property & Residential Projects — BiConcept",
+        "description": "Explore upcoming and newly launched luxury residential projects in Delhi, Noida, and Greater Noida, researched and reviewed for BiConcept studio clients.",
+        "h1": "NCR, by pocket.",
+        "keywords": [
+          "Noida upcoming projects",
+          "Greater Noida new launch",
+          "Delhi residential projects",
+          "NCR luxury property"
+        ],
+        "faqs": [
+          {
+            "question": "Which cities does BiConcept research?",
+            "answer": "Delhi, Noida, and Greater Noida — including named sectors. Listings are researched publicly and published only after studio review."
+          },
+          {
+            "question": "Are these BiConcept developments?",
+            "answer": "No. These are public-market projects we research so a client can brief the studio against a real pocket, not a brochure."
+          }
+        ]
+      },
+      "after": {
+        "path": "/listings",
+        "title": "Luxury NCR Property & Residential Projects — BiConcept",
+        "description": "Explore upcoming and newly launched luxury residential projects in Delhi, Noida, and Greater Noida, researched and reviewed for BiConcept studio clients.",
+        "h1": "NCR, by pocket.",
+        "keywords": [
+          "Noida upcoming projects",
+          "Greater Noida new launch",
+          "Delhi residential projects",
+          "NCR luxury property"
+        ],
+        "faqs": [
+          {
+            "question": "Which cities does BiConcept research?",
+            "answer": "Delhi, Noida, and Greater Noida — including named sectors. Listings are researched publicly and published only after studio review."
+          },
+          {
+            "question": "Are these BiConcept developments?",
+            "answer": "No. These are public-market projects we research so a client can brief the studio against a real pocket, not a brochure."
+          }
+        ]
+      }
+    }
+  ]
+}
