@@ -1,0 +1,161 @@
+{
+  "at": "2026-08-28T10:01:13.354515Z",
+  "skipped": false,
+  "note": "applied 3 page(s)",
+  "queries": [
+    "architecture studio India",
+    "luxury villa architect India",
+    "interior designer Mumbai Delhi Bangalore",
+    "luxury interior design studio India",
+    "real estate advisory luxury India",
+    "architect for holiday home Lonavala Alibaug",
+    "conceptual architecture practice India",
+    "BiConcept architecture interiors"
+  ],
+  "changes": [
+    {
+      "path": "/",
+      "reason": "Refined title and description length (151 chars) to maximize SERP visibility, improve brand voice, and strengthen core studio query alignment.",
+      "before": {
+        "path": "/",
+        "title": "BiConcept — Architecture Studio & Design Practice India",
+        "description": "BiConcept conceives architecture, interior design, and real estate as one idea. A conceptual studio for luxury residences and land across India.",
+        "h1": "One concept. Every scale.",
+        "keywords": [
+          "architecture studio India",
+          "luxury architecture studio",
+          "real estate advisory luxury India",
+          "BiConcept"
+        ],
+        "faqs": [
+          {
+            "question": "What does BiConcept do?",
+            "answer": "BiConcept is a conceptual studio for architecture, interior design, and real estate — from first sketch to occupied space and land."
+          },
+          {
+            "question": "Where does BiConcept work?",
+            "answer": "We work across India, with selected commissions further afield when the brief asks for a single, coherent concept."
+          }
+        ]
+      },
+      "after": {
+        "path": "/",
+        "title": "BiConcept — Architecture, Interiors & Real Estate India",
+        "description": "BiConcept conceives architecture, interior design, and real estate as one single idea. A conceptual studio for luxury residences and land across India.",
+        "h1": "One concept. Every scale.",
+        "keywords": [
+          "architecture studio India",
+          "luxury architecture studio",
+          "real estate advisory luxury India",
+          "BiConcept"
+        ],
+        "faqs": [
+          {
+            "question": "What does BiConcept do?",
+            "answer": "BiConcept is a conceptual studio for architecture, interior design, and real estate — from first sketch to occupied space and land."
+          },
+          {
+            "question": "Where does BiConcept work?",
+            "answer": "We work across India, with selected commissions further afield when the brief asks for a single, coherent concept."
+          }
+        ]
+      }
+    },
+    {
+      "path": "/architecture",
+      "reason": "Optimized description character count to 140 chars while tightening cinematic title formatting to improve CTR for high-intent villa queries.",
+      "before": {
+        "path": "/architecture",
+        "title": "Luxury Villa Architect & Architecture Studio — BiConcept",
+        "description": "BiConcept is a conceptual architecture studio in India designing luxury villas, holiday homes, and residences composed as enduring spatial ideas.",
+        "h1": "Architecture as a held idea.",
+        "keywords": [
+          "architecture studio India",
+          "luxury villa architect India",
+          "architect for holiday home Lonavala Alibaug",
+          "BiConcept architecture"
+        ],
+        "faqs": [
+          {
+            "question": "What architecture work does BiConcept take on?",
+            "answer": "Villas, residences, and developments — from first massing through construction, held as a single spatial idea."
+          },
+          {
+            "question": "Do you handle planning drawings?",
+            "answer": "Yes. Concept, planning, detailed architectural sets, and site coordination are part of the architecture practice."
+          }
+        ]
+      },
+      "after": {
+        "path": "/architecture",
+        "title": "Luxury Villa Architect & Architecture Studio | BiConcept",
+        "description": "BiConcept designs luxury villas, holiday homes, and private residences across India. Architecture held as a single, enduring spatial idea.",
+        "h1": "Architecture as a held idea.",
+        "keywords": [
+          "architecture studio India",
+          "luxury villa architect India",
+          "architect for holiday home Lonavala Alibaug",
+          "BiConcept architecture"
+        ],
+        "faqs": [
+          {
+            "question": "What architecture work does BiConcept take on?",
+            "answer": "Villas, residences, and developments — from first massing through construction, held as a single spatial idea."
+          },
+          {
+            "question": "Do you handle planning drawings?",
+            "answer": "Yes. Concept, planning, detailed architectural sets, and site coordination are part of the architecture practice."
+          }
+        ]
+      }
+    },
+    {
+      "path": "/real-estate",
+      "reason": "Elevated the meta description to 144 characters with a cinematic tone targeting ultra-high-net-worth real estate advisory search intent.",
+      "before": {
+        "path": "/real-estate",
+        "title": "Luxury Real Estate Advisory & Land Studio | BiConcept",
+        "description": "BiConcept provides bespoke luxury real estate advisory across India. Land, private residences, and developments selected and shaped with a designer’s eye.",
+        "h1": "Land, composed.",
+        "keywords": [
+          "real estate advisory luxury India",
+          "luxury property advisory",
+          "land advisory India",
+          "BiConcept real estate"
+        ],
+        "faqs": [
+          {
+            "question": "Is this a brokerage?",
+            "answer": "We advise on residences, plots, and developments with a designer’s eye — selecting and shaping property as a long idea, not a listing mill."
+          },
+          {
+            "question": "Can architecture follow a land purchase?",
+            "answer": "Yes. When the brief continues, we hand off into architecture or interiors after close."
+          }
+        ]
+      },
+      "after": {
+        "path": "/real-estate",
+        "title": "Luxury Real Estate Advisory & Land Studio — BiConcept",
+        "description": "Bespoke luxury real estate advisory across India. Private residences, land, and developments selected and shaped through an architectural lens.",
+        "h1": "Land, composed.",
+        "keywords": [
+          "real estate advisory luxury India",
+          "luxury property advisory",
+          "land advisory India",
+          "BiConcept real estate"
+        ],
+        "faqs": [
+          {
+            "question": "Is this a brokerage?",
+            "answer": "We advise on residences, plots, and developments with a designer’s eye — selecting and shaping property as a long idea, not a listing mill."
+          },
+          {
+            "question": "Can architecture follow a land purchase?",
+            "answer": "Yes. When the brief continues, we hand off into architecture or interiors after close."
+          }
+        ]
+      }
+    }
+  ]
+}
