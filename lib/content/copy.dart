@@ -1,5 +1,5 @@
 abstract final class SiteCopy {
-  static const metaTitle = 'BiConcept — Architecture, Interiors & Real Estate India';
+  static const metaTitle = 'BiConcept — Luxury Architecture Studio & Real Estate India';
   static const metaDescription =
       'BiConcept conceives architecture, interior design, and real estate as one idea. A conceptual studio for homes, developments, and land across India.';
 

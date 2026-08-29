@@ -1,0 +1,113 @@
+{
+  "at": "2026-08-29T12:48:09.092639Z",
+  "skipped": false,
+  "note": "applied 2 page(s)",
+  "queries": [
+    "architecture studio India",
+    "luxury villa architect India",
+    "interior designer Mumbai Delhi Bangalore",
+    "luxury interior design studio India",
+    "real estate advisory luxury India",
+    "architect for holiday home Lonavala Alibaug",
+    "conceptual architecture practice India",
+    "BiConcept architecture interiors"
+  ],
+  "changes": [
+    {
+      "path": "/",
+      "reason": "Optimizes primary brand title to naturally incorporate the high-intent query 'luxury architecture studio' while sharpening meta description length and cinematic voice.",
+      "before": {
+        "path": "/",
+        "title": "BiConcept — Architecture, Interiors & Real Estate India",
+        "description": "BiConcept conceives architecture, interior design, and real estate as one single idea. A conceptual studio for luxury residences and land across India.",
+        "h1": "One concept. Every scale.",
+        "keywords": [
+          "architecture studio India",
+          "luxury architecture studio",
+          "real estate advisory luxury India",
+          "BiConcept"
+        ],
+        "faqs": [
+          {
+            "question": "What does BiConcept do?",
+            "answer": "BiConcept is a conceptual studio for architecture, interior design, and real estate — from first sketch to occupied space and land."
+          },
+          {
+            "question": "Where does BiConcept work?",
+            "answer": "We work across India, with selected commissions further afield when the brief asks for a single, coherent concept."
+          }
+        ]
+      },
+      "after": {
+        "path": "/",
+        "title": "BiConcept — Luxury Architecture Studio & Real Estate India",
+        "description": "BiConcept conceives architecture, interior design, and luxury real estate advisory as one idea. A conceptual studio for residences across India.",
+        "h1": "One concept. Every scale.",
+        "keywords": [
+          "architecture studio India",
+          "luxury architecture studio",
+          "real estate advisory luxury India",
+          "BiConcept"
+        ],
+        "faqs": [
+          {
+            "question": "What does BiConcept do?",
+            "answer": "BiConcept is a conceptual studio for architecture, interior design, and real estate — from first sketch to occupied space and land."
+          },
+          {
+            "question": "Where does BiConcept work?",
+            "answer": "We work across India, with selected commissions further afield when the brief asks for a single, coherent concept."
+          }
+        ]
+      }
+    },
+    {
+      "path": "/interiors",
+      "reason": "Original title was under 50 characters; rewritten to target key geographic search query 'interior designer Mumbai Delhi Bangalore' while maintaining studio voice.",
+      "before": {
+        "path": "/interiors",
+        "title": "Luxury Interior Design Studio India | BiConcept",
+        "description": "BiConcept creates calm, refined luxury interiors across Mumbai, Delhi, and Bangalore. Material, light, and proportion composed for how space is lived.",
+        "h1": "Interiors with architectural calm.",
+        "keywords": [
+          "luxury interior design studio India",
+          "interior designer Mumbai Delhi Bangalore",
+          "residential interior designer",
+          "BiConcept interiors"
+        ],
+        "faqs": [
+          {
+            "question": "Is interior design a separate service?",
+            "answer": "It is its own practice, but it is composed the way we compose buildings — light, material, and furniture as one temperature."
+          },
+          {
+            "question": "Do you specify furniture and lighting?",
+            "answer": "Yes. Layouts, custom millwork, FF&E, and styling through installation."
+          }
+        ]
+      },
+      "after": {
+        "path": "/interiors",
+        "title": "Luxury Interior Designer Mumbai Delhi Bangalore | BiConcept",
+        "description": "BiConcept creates refined luxury interiors across Mumbai, Delhi, and Bangalore. Material, light, and proportion composed for how space is lived.",
+        "h1": "Interiors with architectural calm.",
+        "keywords": [
+          "luxury interior design studio India",
+          "interior designer Mumbai Delhi Bangalore",
+          "residential interior designer",
+          "BiConcept interiors"
+        ],
+        "faqs": [
+          {
+            "question": "Is interior design a separate service?",
+            "answer": "It is its own practice, but it is composed the way we compose buildings — light, material, and furniture as one temperature."
+          },
+          {
+            "question": "Do you specify furniture and lighting?",
+            "answer": "Yes. Layouts, custom millwork, FF&E, and styling through installation."
+          }
+        ]
+      }
+    }
+  ]
+}
