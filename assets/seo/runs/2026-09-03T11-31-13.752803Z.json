@@ -1,0 +1,105 @@
+{
+  "at": "2026-09-03T11:31:13.752803Z",
+  "skipped": false,
+  "note": "applied 2 page(s)",
+  "queries": [
+    "architecture studio India",
+    "luxury villa architect India",
+    "interior designer Mumbai Delhi Bangalore",
+    "luxury interior design studio India",
+    "real estate advisory luxury India",
+    "architect for holiday home Lonavala Alibaug",
+    "conceptual architecture practice India",
+    "BiConcept architecture interiors"
+  ],
+  "changes": [
+    {
+      "path": "/work",
+      "reason": "Updated description expands character count closer to the optimal 160-character limit while reinforcing the cinematic tone and focus on multi-disciplinary portfolio case studies.",
+      "before": {
+        "path": "/work",
+        "title": "Luxury Architecture & Interior Portfolio — BiConcept",
+        "description": "Explore selected luxury architecture, interior design, and real estate advisory case studies across India, composed as single spatial concepts.",
+        "h1": "Selected work.",
+        "keywords": [
+          "architecture portfolio",
+          "interior projects",
+          "BiConcept work",
+          "luxury residence case studies"
+        ],
+        "faqs": [
+          {
+            "question": "What projects does BiConcept showcase in its portfolio?",
+            "answer": "Selected architecture, interior design, and real estate advisory projects composed as single spatial concepts."
+          }
+        ]
+      },
+      "after": {
+        "path": "/work",
+        "title": "Luxury Architecture & Interior Portfolio | BiConcept",
+        "description": "Selected luxury architecture, interior design, and real estate case studies across India. Private residences composed as singular, uncompromising spatial concepts.",
+        "h1": "Selected work.",
+        "keywords": [
+          "architecture portfolio",
+          "interior projects",
+          "BiConcept work",
+          "luxury residence case studies"
+        ],
+        "faqs": [
+          {
+            "question": "What projects does BiConcept showcase in its portfolio?",
+            "answer": "Selected architecture, interior design, and real estate advisory projects composed as single spatial concepts."
+          }
+        ]
+      }
+    },
+    {
+      "path": "/listings",
+      "reason": "Refined title separator and adjusted description phrasing to stronger commercial keywords ('Real Estate', 'developments') while keeping strict compliance with studio tone.",
+      "before": {
+        "path": "/listings",
+        "title": "Luxury NCR Property & Residential Projects — BiConcept",
+        "description": "Explore upcoming and newly launched luxury residential projects in Delhi, Noida, and Greater Noida, researched and reviewed for BiConcept studio clients.",
+        "h1": "NCR, by pocket.",
+        "keywords": [
+          "Noida upcoming projects",
+          "Greater Noida new launch",
+          "Delhi residential projects",
+          "NCR luxury property"
+        ],
+        "faqs": [
+          {
+            "question": "Which cities does BiConcept research?",
+            "answer": "Delhi, Noida, and Greater Noida — including named sectors. Listings are researched publicly and published only after studio review."
+          },
+          {
+            "question": "Are these BiConcept developments?",
+            "answer": "No. These are public-market projects we research so a client can brief the studio against a real pocket, not a brochure."
+          }
+        ]
+      },
+      "after": {
+        "path": "/listings",
+        "title": "Luxury NCR Real Estate & Residential Projects | BiConcept",
+        "description": "Researched luxury residential developments in Delhi, Noida, and Greater Noida. Market property intelligence curated and reviewed for BiConcept studio clients.",
+        "h1": "NCR, by pocket.",
+        "keywords": [
+          "Noida upcoming projects",
+          "Greater Noida new launch",
+          "Delhi residential projects",
+          "NCR luxury property"
+        ],
+        "faqs": [
+          {
+            "question": "Which cities does BiConcept research?",
+            "answer": "Delhi, Noida, and Greater Noida — including named sectors. Listings are researched publicly and published only after studio review."
+          },
+          {
+            "question": "Are these BiConcept developments?",
+            "answer": "No. These are public-market projects we research so a client can brief the studio against a real pocket, not a brochure."
+          }
+        ]
+      }
+    }
+  ]
+}
