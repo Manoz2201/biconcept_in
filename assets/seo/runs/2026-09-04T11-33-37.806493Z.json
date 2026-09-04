@@ -1,0 +1,57 @@
+{
+  "at": "2026-09-04T11:33:37.806493Z",
+  "skipped": false,
+  "note": "applied 1 page(s)",
+  "queries": [
+    "architecture studio India",
+    "luxury villa architect India",
+    "interior designer Mumbai Delhi Bangalore",
+    "luxury interior design studio India",
+    "real estate advisory luxury India",
+    "architect for holiday home Lonavala Alibaug",
+    "conceptual architecture practice India",
+    "BiConcept architecture interiors"
+  ],
+  "changes": [
+    {
+      "path": "/work",
+      "reason": "Trimmed meta description from 163 characters to 151 characters to fit strict SEO guidelines without sacrificing brand tone or keywords.",
+      "before": {
+        "path": "/work",
+        "title": "Luxury Architecture & Interior Portfolio | BiConcept",
+        "description": "Selected luxury architecture, interior design, and real estate case studies across India. Private residences composed as singular, uncompromising spatial concepts.",
+        "h1": "Selected work.",
+        "keywords": [
+          "architecture portfolio",
+          "interior projects",
+          "BiConcept work",
+          "luxury residence case studies"
+        ],
+        "faqs": [
+          {
+            "question": "What projects does BiConcept showcase in its portfolio?",
+            "answer": "Selected architecture, interior design, and real estate advisory projects composed as single spatial concepts."
+          }
+        ]
+      },
+      "after": {
+        "path": "/work",
+        "title": "Luxury Architecture & Interior Portfolio | BiConcept",
+        "description": "Selected luxury architecture, interior design, and real estate case studies in India. Private residences composed as singular, uncompromising concepts.",
+        "h1": "Selected work.",
+        "keywords": [
+          "architecture portfolio",
+          "interior projects",
+          "BiConcept work",
+          "luxury residence case studies"
+        ],
+        "faqs": [
+          {
+            "question": "What projects does BiConcept showcase in its portfolio?",
+            "answer": "Selected architecture, interior design, and real estate advisory projects composed as single spatial concepts."
+          }
+        ]
+      }
+    }
+  ]
+}
