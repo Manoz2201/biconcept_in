@@ -1,0 +1,105 @@
+{
+  "at": "2026-09-05T10:48:30.577424Z",
+  "skipped": false,
+  "note": "applied 2 page(s)",
+  "queries": [
+    "architecture studio India",
+    "luxury villa architect India",
+    "interior designer Mumbai Delhi Bangalore",
+    "luxury interior design studio India",
+    "real estate advisory luxury India",
+    "architect for holiday home Lonavala Alibaug",
+    "conceptual architecture practice India",
+    "BiConcept architecture interiors"
+  ],
+  "changes": [
+    {
+      "path": "/real-estate",
+      "reason": "Standardized title delimiter format to standard pipe structure, enhancing CTR and search readability.",
+      "before": {
+        "path": "/real-estate",
+        "title": "Luxury Real Estate Advisory India — BiConcept Studio",
+        "description": "Bespoke luxury real estate advisory across India. Private residences, land, and developments selected and shaped through a singular architectural lens.",
+        "h1": "Land, composed.",
+        "keywords": [
+          "real estate advisory luxury India",
+          "luxury property advisory",
+          "land advisory India",
+          "BiConcept real estate"
+        ],
+        "faqs": [
+          {
+            "question": "Is this a brokerage?",
+            "answer": "We advise on residences, plots, and developments with a designer’s eye — selecting and shaping property as a long idea, not a listing mill."
+          },
+          {
+            "question": "Can architecture follow a land purchase?",
+            "answer": "Yes. When the brief continues, we hand off into architecture or interiors after close."
+          }
+        ]
+      },
+      "after": {
+        "path": "/real-estate",
+        "title": "Luxury Real Estate Advisory India | BiConcept Studio",
+        "description": "Bespoke luxury real estate advisory across India. Private residences, land, and developments selected and shaped through a singular architectural lens.",
+        "h1": "Land, composed.",
+        "keywords": [
+          "real estate advisory luxury India",
+          "luxury property advisory",
+          "land advisory India",
+          "BiConcept real estate"
+        ],
+        "faqs": [
+          {
+            "question": "Is this a brokerage?",
+            "answer": "We advise on residences, plots, and developments with a designer’s eye — selecting and shaping property as a long idea, not a listing mill."
+          },
+          {
+            "question": "Can architecture follow a land purchase?",
+            "answer": "Yes. When the brief continues, we hand off into architecture or interiors after close."
+          }
+        ]
+      }
+    },
+    {
+      "path": "/studio",
+      "reason": "Expanded title slightly to emphasize studio branding while targeting explicit conceptual practice queries.",
+      "before": {
+        "path": "/studio",
+        "title": "Conceptual Architecture Practice India — BiConcept",
+        "description": "BiConcept is a conceptual architecture practice in India integrating luxury architecture, interior design, and real estate advisory into one discipline.",
+        "h1": "A studio of one concept.",
+        "keywords": [
+          "conceptual architecture practice India",
+          "design studio India",
+          "about BiConcept",
+          "BiConcept architecture interiors"
+        ],
+        "faqs": [
+          {
+            "question": "What is the BiConcept studio approach?",
+            "answer": "BiConcept is a conceptual practice operating across architecture, interior design, and real estate, composed as a single unified idea."
+          }
+        ]
+      },
+      "after": {
+        "path": "/studio",
+        "title": "Conceptual Architecture Practice India | BiConcept Studio",
+        "description": "BiConcept is a conceptual architecture practice in India integrating luxury architecture, interior design, and real estate advisory into one discipline.",
+        "h1": "A studio of one concept.",
+        "keywords": [
+          "conceptual architecture practice India",
+          "design studio India",
+          "about BiConcept",
+          "BiConcept architecture interiors"
+        ],
+        "faqs": [
+          {
+            "question": "What is the BiConcept studio approach?",
+            "answer": "BiConcept is a conceptual practice operating across architecture, interior design, and real estate, composed as a single unified idea."
+          }
+        ]
+      }
+    }
+  ]
+}
