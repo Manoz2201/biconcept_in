@@ -1,0 +1,95 @@
+{
+  "at": "2026-09-10T11:37:04.884178Z",
+  "skipped": false,
+  "note": "applied 2 page(s)",
+  "queries": [
+    "architecture studio India",
+    "luxury villa architect India",
+    "interior designer Mumbai Delhi Bangalore",
+    "luxury interior design studio India",
+    "real estate advisory luxury India",
+    "architect for holiday home Lonavala Alibaug",
+    "conceptual architecture practice India",
+    "BiConcept architecture interiors"
+  ],
+  "changes": [
+    {
+      "path": "/work",
+      "reason": "Refined description to increase search clarity for portfolio intent while polishing brand cadence within character bounds.",
+      "before": {
+        "path": "/work",
+        "title": "Luxury Architecture & Interior Portfolio | BiConcept Studio",
+        "description": "Selected luxury architecture, interior design, and real estate case studies in India. Private residences composed as singular, uncompromising concepts.",
+        "h1": "Selected work.",
+        "keywords": [
+          "architecture portfolio",
+          "interior projects",
+          "BiConcept work",
+          "luxury residence case studies"
+        ],
+        "faqs": [
+          {
+            "question": "What projects does BiConcept showcase in its portfolio?",
+            "answer": "Selected architecture, interior design, and real estate advisory projects composed as single spatial concepts."
+          }
+        ]
+      },
+      "after": {
+        "path": "/work",
+        "title": "Luxury Architecture & Interior Portfolio | BiConcept",
+        "description": "Explore private residences, luxury interiors, and land case studies across India. Architecture and design held as singular, uncompromising concepts.",
+        "h1": "Selected work.",
+        "keywords": [
+          "architecture portfolio",
+          "interior projects",
+          "BiConcept work",
+          "luxury residence case studies"
+        ],
+        "faqs": [
+          {
+            "question": "What projects does BiConcept showcase in its portfolio?",
+            "answer": "Selected architecture, interior design, and real estate advisory projects composed as single spatial concepts."
+          }
+        ]
+      }
+    },
+    {
+      "path": "/inquire",
+      "reason": "Tightened title and meta description for sharper CTA and precise character length.",
+      "before": {
+        "path": "/inquire",
+        "title": "Commission Luxury Architecture & Interiors — BiConcept",
+        "description": "Initiate a private consultation with BiConcept for luxury architecture, interior design, or real estate advisory. Share your project brief across India.",
+        "h1": "Start a concept.",
+        "keywords": [
+          "architecture consultation",
+          "interior design inquiry",
+          "BiConcept contact"
+        ],
+        "faqs": [
+          {
+            "question": "How do I initiate a project with BiConcept?",
+            "answer": "Begin a consultation by sharing your brief with the studio for architecture, interior design, or real estate advisory."
+          }
+        ]
+      },
+      "after": {
+        "path": "/inquire",
+        "title": "Commission Luxury Architecture & Design | BiConcept",
+        "description": "Initiate a private consultation with BiConcept. Share your architectural, interior design, or real estate brief for private residences across India.",
+        "h1": "Start a concept.",
+        "keywords": [
+          "architecture consultation",
+          "interior design inquiry",
+          "BiConcept contact"
+        ],
+        "faqs": [
+          {
+            "question": "How do I initiate a project with BiConcept?",
+            "answer": "Begin a consultation by sharing your brief with the studio for architecture, interior design, or real estate advisory."
+          }
+        ]
+      }
+    }
+  ]
+}
